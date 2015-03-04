@@ -1,0 +1,52 @@
+{
+  "name": "Kohalolekud",
+  "description": "Omatsirkuses märgitakse sellega kohalolekuid.",
+  "version": "0.0.1",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Omatsirkus/kohalolekud.git"
+  },
+  "dependencies": {
+    "os-utils": "*",
+    "jquery": "2.1.3",
+    "moment": "2.9.0",
+    "marked": "0.3.3",
+    "font-awesome": "4.3.0"
+  },
+  "window": {
+    "show_in_taskbar": true,
+    "icon": "./images/murakas1024bw.png",
+    "toolbar": true,
+    "frame": true,
+    "show": true,
+    "position": "center",
+    "min_width": 800,
+    "min_height": 500,
+    "width": 900,
+    "height": 900
+  },
+  "platformOverrides": {
+    "win": {
+      "window": {
+        "toolbar": false
+      }
+    },
+    "osx": {
+      "window": {
+        "toolbar": false
+      }
+    },
+    "linux": {
+      "window": {
+        "toolbar": false
+      }
+    }
+  },
+  "webkit": {
+    "plugin": true
+  },
+  "chromium-args": "--ignore-gpu-blacklist"
+}

@@ -1,0 +1,64 @@
+* {
+ /*-webkit-user-select: none;*/
+}
+
+#login_frame {
+  border: 0px;
+  height: 100%;
+  width: 100%;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+}
+
+/*Card labels*/
+#card_labels {
+  width: 100%;
+}
+.card_label {
+  width: 33.3333%;
+  border: black 1px solid;
+  color: gray;
+  background-color: lightgray;
+  padding: 0.7em;
+  cursor: forbidden;
+}
+.card_label.current {
+  color: darkblue;
+  background-color: azure;
+}
+.card_label.complete {
+  color: darkgreen;
+  background-color: lightgray;
+}
+.card_label>p {
+  display: inline;
+}
+
+/*Cards*/
+#cards {
+  position: fixed;
+  cursor: default;
+  top:4em;
+  right:1em;
+  bottom:1em;
+  left:1em;
+}
+.card {
+  overflow: auto;
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+card.current {
+  display: inline;
+}
+
+
+body {
+  height: 100%;
+  margin: 1em;
+  font-family: sans-serif;
+  font-size: 1em;
+  padding: 0em;
+}

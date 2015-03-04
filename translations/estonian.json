@@ -1,0 +1,9 @@
+{
+    "resource_name": "**Ressursi nimi**",
+    "select_card": "Ressursi valimine",
+    "upload_card": "Üleslaadimine",
+    "thankyou_card": "Tänusõnad",
+    "upload_button": "Lae ressurss üles",
+    "overquota_total": "Ressursi kogumaht ületab seatud piirangut {{__UPLOAD_QUOTA_H}}.",
+    "overquota_files": "Maksimaalne faili suurus peab jääma alla {{__MAX_FILESIZE_H}}."
+}

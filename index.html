@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Omatsirkus - kohalolekud</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+        <link href="style.css" rel="stylesheet" />
+        <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="script.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+        <table id="card_labels">
+            <tr>
+                <td id="hello_card_label" translate="hello_card" class="card_label current"></td>
+                <td id="mark_card_label" translate="mark_card" class="card_label"></td>
+                <td id="thankyou_card_label" translate="thankyou_card" class="card_label"></td>
+            </tr>
+        </table>
+        <div id="cards">
+            <card id="select_card" class="card">
+                <div translate="select_infotext" class="infotext"></div>
+            </card>
+
+            <card id="mark_card" class="card">
+                <div translate="mark_infotext" class="infotext"></div>
+            </card>
+
+            <card id="thankyou_card" class="card">
+                <div translate="thankyou_infotext" class="infotext"></div>
+            </card>
+        </div>
+    </body>
+
+</html>
