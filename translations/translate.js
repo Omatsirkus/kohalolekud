@@ -14,7 +14,7 @@ fs.readdirSync(tr_dir).forEach(function scanLanguageFiles(filename) {
 
 // replace_dictionary is optional dictionary for replacing placeholders
 //    {"search string":"replace_string"}
-var translate = function translate(key, replace_dictionary) {
+var translate = function translate(key, is_plain, replace_dictionary) {
     if (translations[key] === undefined) return '**(--' + key + '--)**'
     var return_string = translations[key]
     if (replace_dictionary !== undefined) {
@@ -25,7 +25,11 @@ var translate = function translate(key, replace_dictionary) {
     for (var key in translations) {
         return_string = return_string.replace('{{' + key + '}}', translations[key])
     }
-    return marked(return_string)
+
+    if (is_plain)
+        return return_string
+    else
+        return marked(return_string)
 }
 
 module.exports = translate

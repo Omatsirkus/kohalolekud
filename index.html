@@ -13,9 +13,13 @@
     <body>
         <table id="card_labels">
             <tr>
-                <td id="groups_card_label" translate="groups_card" class="card_label current"></td>
+                <td id="groups_card_label" class="card_label current">
+                    <span translate="groups_card"></span>
+                </td>
                 <td id="mark_card_label" translate="mark_card" class="card_label"></td>
                 <td id="thankyou_card_label" translate="thankyou_card" class="card_label"></td>
+            </tr>
+            <tr id="ready_buttons">
             </tr>
         </table>
         <div id="cards">
@@ -51,6 +55,8 @@
 
             <card id="mark_card" class="card">
                 <div translate="mark_infotext" class="infotext"></div>
+
+                <div id="select_participation"></div>
             </card>
 
             <card id="thankyou_card" class="card">

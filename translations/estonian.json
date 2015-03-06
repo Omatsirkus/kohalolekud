@@ -4,6 +4,8 @@
     "thankyou_card": "Tänusõnad",
     "start": "Algus",
     "end":  "Lõpp",
-    "day_s": "päev",
+    "groups_ready": "Edasi",
+    "mark_ready": "Valmis",
+    "thankyou_ready": "Head aega",
     "day_p": "päeva"
 }

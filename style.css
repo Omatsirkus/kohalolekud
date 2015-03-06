@@ -18,7 +18,7 @@
 }
 .card_label {
   width: 33.3333%;
-  border: black 1px solid;
+  /*border: black 1px solid;*/
   color: gray;
   background-color: lightgray;
   padding: 0.7em;
@@ -55,7 +55,19 @@ card.current {
   display: block;
   /*border: 1px gray solid;*/
 }
-
+.ready_button {
+  text-align: center;
+  cursor: pointer;
+  padding: 0.5em;
+  color: white;
+  background-color: green;
+  text-decoration: underline;
+  visibility: hidden;
+  font-weight: bold;
+}
+.ready_button.show {
+  visibility: visible;
+}
 
 /*Card date*/
 div.card_date {
@@ -80,10 +92,27 @@ div.card_date {
   content: ":";
 }
 
-label.row {
+
+/*Mark participants*/
+.group_div {
+  margin: 1em;
+}
+.person.select_row {
+  display: block;
+  transform: translateY(-1.5em);
+}
+.group_name {
+  border-top: 1px black solid;
+  border-top-right-radius: 1em;
+  padding: 0.5em;
+  text-align: right;
+  transform: translateX(-1em);
+}
+
+.select_row {
 display: block;
 }
-label.row:hover {
+.select_row:hover {
 background-color: lightgray;
 }
 span>p {

@@ -31,20 +31,8 @@ console.log ( '= ' + gui.App.manifest.name + ' v.' + configuration.VERSION + ' =
 
 gui.Window.get().focus()
 
-// gui.Window.get().on('focus', function() {
-//     checkAuth(function(data) {
-//         ENTU_USER_ID = data.result.id
-//         ENTU_SESSION_KEY = data.result.session_key
-//     })
-// })
 
-
-// gui.Window.get().on('resize', function(width, height) {
-//     $('.card').height($(window).height() - 100)
-// })
-
-
-// This frame get dynamically attached and detached as needed.
+// This frame gets dynamically attached and detached as needed.
 // HTTP load gets performed on each attach
 var login_frame = $('<IFRAME/>')
     .attr('id', 'login_frame')
