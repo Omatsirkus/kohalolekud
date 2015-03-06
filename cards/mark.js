@@ -12,8 +12,11 @@ var translate     = require('../translations/translate.js')
 
 // -(.*)/childs
 
-var refresh = function refresh() {
-
+var refresh = function refresh(group_eid, group_size_div) {
+    var participants = $('#group_' + group_eid + ' > .person.select_row > :checked').size()
+    // console.log(group_eid)
+    var participants_str = participants === 1 ? translate('participant_s', true) : translate('participant_p', true)
+    group_size_div.text(participants + ' ' + participants_str)
 }
 
 var load = function load() {
@@ -30,8 +33,17 @@ var load = function load() {
                     return
                 }
 
-                var group_div = $('<div class=group_div>')
-                    .append($('<div class="group_name">').text(load_group.attr('name')))
+                var group_name_div = $('<div id="group_name_' + load_group.attr('eid')
+                    + '" eid="' + load_group.attr('eid') + '" class="group_name">')
+                group_name_div.text(load_group.attr('name'))
+
+                var group_size_div = $('<div id="group_size_' + load_group.attr('eid') + '" class="group_count">')
+                    .text(translate('nobody', true))
+
+                var group_div = $('<div id="group_' + load_group.attr('eid') + '" class=group_div>')
+                    .append(group_name_div)
+                    .append(group_size_div)
+
                 $('#select_participation').append(group_div)
 
                 // console.log(data.result)
@@ -40,7 +52,7 @@ var load = function load() {
                     group_div.append($('<label for="CB_' + entu_group_child.id + '" class="person select_row"/>')
                         .append($('<input id="CB_' + entu_group_child.id + '" type="checkbox"/>')
                             .on('change', function() {
-                                refresh()
+                                refresh(load_group.attr('eid'), group_size_div)
                             })
                         )
                         .append('<label for="CB_' + entu_group_child.id + '">' + entu_group_child.name + '</label>')

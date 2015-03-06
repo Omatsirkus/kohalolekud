@@ -108,6 +108,12 @@ div.card_date {
   text-align: right;
   transform: translateX(-1em);
 }
+.group_count {
+  float: right;
+  transform: translateX(-1.5em);
+}
+
+
 
 .select_row {
 display: block;

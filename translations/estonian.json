@@ -7,5 +7,7 @@
     "groups_ready": "Edasi",
     "mark_ready": "Valmis",
     "thankyou_ready": "Head aega",
-    "day_p": "päeva"
+    "nobody": "Ei kedagi",
+    "participant_s": "osavõtja",
+    "participant_p": "osavõtjat"
 }
