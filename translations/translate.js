@@ -1,6 +1,6 @@
 var marked          = require('marked')
 var fs              = require('fs')
-var configuration   = require('../configuration.json')
+var configuration   = require('../configuration.js')
 var translations    = require('./' + configuration.language + '.json')
 
 var tr_dir = './translations/' + configuration.language + '/'

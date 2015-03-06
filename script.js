@@ -1,8 +1,8 @@
 // 1. core modules
 var gui     = require('nw.gui')
-var util    = require('util')
+// var util    = require('util')
 var fs      = require('fs')
-var https   = require('https')
+// var https   = require('https')
 var path    = require('path')
 
 
@@ -11,54 +11,51 @@ var os      = require('os-utils')
 
 
 // 3. Own modules
-var configuration = require('./configuration.json')
+var configuration = require('./configuration.js')
 var translate     = require('./translations/translate.js')
 
 
-// 4. And configuration
+// var $ = require('jquery')
+// global.document = window.document;
+// global.navigator = window.navigator;
+// require('jquery-ui')
 
 
 // Add os-specific shortcuts and menu
 require('./decorate.js').decorate()
 
-
 global.$ = $
 
 
-__VERSION = gui.App.manifest.version
-ENTU_URI = 'https://omatsirkus.entu.ee/'
-ENTU_API = ENTU_URI + 'api2/'
-ENTU_API_AUTH = ENTU_API + 'user/auth'
-ENTU_API_USER = ENTU_API + 'user'
-ENTU_API_ENTITY = ENTU_API + 'entity-'
-ENTU_API_POST_FILE = ENTU_API + 'file'
-
-
-console.log ( '= ' + gui.App.manifest.name + ' v.' + __VERSION + ' ==================================')
+console.log ( '= ' + gui.App.manifest.name + ' v.' + configuration.VERSION + ' ==================================')
 
 gui.Window.get().focus()
 
-gui.Window.get().on('focus', function() {
-    checkAuth(function(data) {
-        ENTU_USER_ID = data.result.id
-        ENTU_SESSION_KEY = data.result.session_key
-    })
-})
+// gui.Window.get().on('focus', function() {
+//     checkAuth(function(data) {
+//         ENTU_USER_ID = data.result.id
+//         ENTU_SESSION_KEY = data.result.session_key
+//     })
+// })
 
 
-gui.Window.get().on('resize', function(width, height) {
-    $('#card_contents').height($(window).height() - 100)
-})
+// gui.Window.get().on('resize', function(width, height) {
+//     $('.card').height($(window).height() - 100)
+// })
 
 
 // This frame get dynamically attached and detached as needed.
 // HTTP load gets performed on each attach
 var login_frame = $('<IFRAME/>')
     .attr('id', 'login_frame')
-    .attr('src', ENTU_URI)
+    .attr('name', 'login_frame')
+    .attr('src', configuration.ENTU_API_AUTH)
 
 
 $( document ).ready(function() {
+
+    var cards         = require('./cards.js')
+
 
     // Update contents of all DOM elements with [translate] attribute
     // ie. <div translate="HelloWorld"></div> becomes <div>Hello, world!</div>
@@ -74,37 +71,44 @@ $( document ).ready(function() {
     // Make sure user has access to Entu
     //   and load user interface
     checkAuth(function successCallback(data) {
-        ENTU_USER_ID = data.result.id
-        ENTU_SESSION_KEY = data.result.session_key
-        loadCard('hello')
+        configuration.ENTU_USER_ID = data.result.id
+        configuration.ENTU_SESSION_KEY = data.result.session_key
+        console.log('Hello ' + data.result.name)
+        // console.log(cards)
+        cards.first()
     })
+
 
 })
 
 
 var auth_in_progress = false
-var checkAuth = function checkAuth(callback) {
+var checkAuth = function checkAuth(successCallback) {
     if (auth_in_progress)
         return
     auth_in_progress = true
-    console.log('Check user from Entu.')
-    $.get( ENTU_API_USER )
+
+    $.get( configuration.ENTU_API_USER )
         .done(function userOk( data ) {
-            if ($('#login_frame').length > 0) {
-                $('#login_frame').detach()
-            }
             auth_in_progress = false
-            callback(data)
+            successCallback(data)
         })
         .fail(function userFail( data ) {
-            console.log('Auth failed, trying again...')
-            setTimeout(function(){
-                auth_in_progress = false
-                checkAuth(callback)
-            }, 300)
             if ($('#login_frame').length === 0) {
                 $('body').append(login_frame)
                 $('#login_frame').fadeIn(500)
+                $('#login_frame').load( function() {
+                    var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
+                    try {
+                        var result = JSON.parse(doc_body)
+                        console.log('Auth page reloaded, user loaded.')
+                        auth_in_progress = false
+                        $('#login_frame').detach()
+                        successCallback(result)
+                    } catch (ex) {
+                        console.log('Auth page reloaded, user still no avail')
+                    }
+                })
             }
         })
 }
@@ -122,8 +126,9 @@ var homePath = function homePath() {
 var advanceToNextCard = function advanceToNextCard() {
     $('card').removeClass('current')
     $('.card_label.current').removeClass('current').addClass('complete').next().addClass('current')
-    $('#' + $('.card_label.current').attr('translate') ).addClass('current')
+    $('#' + $('.card_label.current').attr('translate')).addClass('current')
 }
+
 
 var loadCard = function loadCard(card_name) {
     $('card').removeClass('current')
@@ -132,6 +137,7 @@ var loadCard = function loadCard(card_name) {
     var card_label_id = card_name + '_card_label'
     $('#' + card_label_id).addClass('current')
     $('#' + card_id).addClass('current')
+    require('./cards/' + card_name + '.js')
 }
 
 

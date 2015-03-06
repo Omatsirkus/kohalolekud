@@ -6,21 +6,47 @@
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
         <link href="style.css" rel="stylesheet" />
-        <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
-        <script src="script.js" charset="utf-8"></script>
+        <script type="text/javascript" src="./node_modules/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="./script.js" charset="utf-8"></script>
     </head>
 
     <body>
         <table id="card_labels">
             <tr>
-                <td id="hello_card_label" translate="hello_card" class="card_label current"></td>
+                <td id="groups_card_label" translate="groups_card" class="card_label current"></td>
                 <td id="mark_card_label" translate="mark_card" class="card_label"></td>
                 <td id="thankyou_card_label" translate="thankyou_card" class="card_label"></td>
             </tr>
         </table>
         <div id="cards">
-            <card id="select_card" class="card">
-                <div translate="select_infotext" class="infotext"></div>
+            <card id="groups_card" class="card">
+                <p id="kohalolek_start_iso" class="right"></p>
+                <p id="kohalolek_end_iso" class="right"></p>
+                <div translate="groups_infotext" class="infotext"></div>
+                <div for="kohalolek_start_date" class="card_date">
+                    <span translate="start" class="card_date label"></span>
+                    <input type="date" id="kohalolek_start_date" class="card_date start date">
+                    <input type="number" id="kohalolek_start_hour" min="8" max="22" class="card_date start time hour">
+                    <input type="number" id="kohalolek_start_minute" min="0" max="55" step="5" class="card_date start time minute">
+                    <!-- <input type="number" id="kohalolek_start_year" min="2014" class="card_date year">
+                    <input type="number" id="kohalolek_start_month" min="1" max="12" class="card_date month">
+                    <input type="number" id="kohalolek_start_day" min="1" max="31" class="card_date day"> -->
+                </div>
+                <div for="kohalolek_end_date" class="card_date">
+                    <span translate="end" class="card_date label"></span>
+                    <input type="date" id="kohalolek_end_date" class="card_date end date">
+                    <input type="number" id="kohalolek_end_hour" min="8" max="22" class="card_date end time hour">
+                    <input type="number" id="kohalolek_end_minute" min="0" max="55" step="5" class="card_date end time minute">
+                    <!-- <input type="number" id="kohalolek_end_year" min="2014" class="card_date year">
+                    <input type="number" id="kohalolek_end_month" min="1" max="12" class="card_date month">
+                    <input type="number" id="kohalolek_end_day" min="1" max="31" class="card_date day"> -->
+                </div>
+                <div class="card_date interval">
+                    <span id="kohalolek_duration"></span>
+                </div>
+
+
+                <div id="select_groups"></div>
             </card>
 
             <card id="mark_card" class="card">

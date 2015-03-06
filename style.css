@@ -14,6 +14,7 @@
 /*Card labels*/
 #card_labels {
   width: 100%;
+  border-spacing: 0em;
 }
 .card_label {
   width: 33.3333%;
@@ -51,14 +52,65 @@
   height: 100%;
 }
 card.current {
-  display: inline;
+  display: block;
+  /*border: 1px gray solid;*/
 }
 
 
+/*Card date*/
+div.card_date {
+  margin: 1em;
+  display: inline-block;
+}
+.card_date.label {
+  display: block;
+}
+.card_date.date, .card_date.time {
+  vertical-align: bottom;
+  font-size: 1.2em;
+  font-family: monospace;
+  padding: 0.2em;
+  border: gray solid 1px;
+  height: 1em;
+}
+.card_date.time {
+  width: 2em;
+}
+.card_date.time::before {
+  content: ":";
+}
+
+label.row {
+display: block;
+}
+label.row:hover {
+background-color: lightgray;
+}
+span>p {
+  display: inline;
+  margin: 0px;
+}
+
 body {
   height: 100%;
-  margin: 1em;
+  margin: 0em;
   font-family: sans-serif;
   font-size: 1em;
   padding: 0em;
 }
+.right {
+  float: right;
+}
+
+
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 40%; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
