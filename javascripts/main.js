@@ -18,12 +18,14 @@ console.log('build.7')
 $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
         console.log(data)
+        $('#user_email').text(data.result.name)
     })
     .fail(function fail( jqXHR, textStatus, error ) {
         console.log( jqXHR.responseJSON, textStatus, error )
         // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
     })
 
+// $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
 $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
     .done(function fetchGroupsOk( data ) {
         // console.log(data)

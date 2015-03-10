@@ -5,3 +5,11 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+div.checkbox > label {
+    width: 100%;
+}
+div.checkbox > label:hover {
+    width: 100%;
+    background-color: lightgray;
+}
