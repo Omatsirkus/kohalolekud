@@ -13,7 +13,7 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
 // console.clear()
 
-console.log('build.6')
+console.log('build.7')
 
 $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
@@ -21,7 +21,7 @@ $.get( configuration['ENTU_API_USER'] )
     })
     .fail(function fail( jqXHR, textStatus, error ) {
         console.log( jqXHR.responseJSON, textStatus, error )
-        window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
+        // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
     })
 
 $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
