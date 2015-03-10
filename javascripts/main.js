@@ -11,7 +11,7 @@ configuration['ENTU_API_USER'] = configuration.ENTU_API + 'user'
 configuration['ENTU_API_ENTITY'] = configuration.ENTU_API + 'entity'
 configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
-console.clear()
+// console.clear()
 
 console.log($('.checkbox'))
 
