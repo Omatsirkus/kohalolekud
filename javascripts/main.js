@@ -11,11 +11,11 @@ configuration['ENTU_API_USER'] = configuration.ENTU_API + 'user'
 configuration['ENTU_API_ENTITY'] = configuration.ENTU_API + 'entity'
 configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
-// console.clear()
+console.clear()
 
-console.log('build.2')
+console.log('build.3')
 
-$.get( configuration['ENTU_API_AUTH'] )
+$.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
         console.log(data)
     })
