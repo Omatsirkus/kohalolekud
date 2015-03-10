@@ -86,7 +86,7 @@ var load = function load() {
         .done(function fetchGroupsOk( data ) {
 
             data.result.forEach(function iterateGroups(entu_group) {
-                console.log(entu_group)
+                // console.log(entu_group)
                 $('#select_groups').append($('<label for="CB_' + entu_group.id + '" class="group select_row"/>')
                     .append($('<input id="CB_' + entu_group.id + '" type="checkbox" eid="' + entu_group.id + '" name="' + entu_group.name + '" class="group_select_cb"/>')
                         .on('change', function() {

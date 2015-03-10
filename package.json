@@ -18,7 +18,7 @@
   },
   "window": {
     "show_in_taskbar": true,
-    "icon": "./images/murakas1024bw.png",
+    "icon": "./resources/png/512x512.png",
     "toolbar": true,
     "frame": true,
     "show": true,

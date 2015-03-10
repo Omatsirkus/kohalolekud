@@ -3,9 +3,10 @@ var gui     = window.gui
 
 var configuration = {
   "language": "estonian",
-  "cards": ["groups", "mark", "thankyou"],
+  "cards": ["groups", "mark"],
   "VERSION": gui.App.manifest.version,
-  "ENTU_URI": 'https://omatsirkus.entu.ee/'
+  "ENTU_URI": 'https://omatsirkus.entu.ee/',
+  "kohalolekud_eid": 652
 }
 
 configuration['ENTU_API'] = configuration.ENTU_URI + 'api2/'

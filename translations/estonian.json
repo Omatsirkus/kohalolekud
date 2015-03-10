@@ -1,12 +1,10 @@
 {
     "groups_card": "Grupid",
     "mark_card": "Kohalolijad",
-    "thankyou_card": "Tänusõnad",
     "start": "Algus",
     "end":  "Lõpp",
     "groups_ready": "Edasi",
     "mark_ready": "Valmis",
-    "thankyou_ready": "Head aega",
     "nobody": "Ei kedagi",
     "participant_s": "osavõtja",
     "participant_p": "osavõtjat"

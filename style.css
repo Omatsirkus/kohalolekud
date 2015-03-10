@@ -14,19 +14,22 @@
 /*Card labels*/
 #card_labels {
   width: 100%;
-  border-spacing: 0em;
+  border-spacing: 0.5em;
 }
 .card_label {
   width: 33.3333%;
-  /*border: black 1px solid;*/
+  padding: 0.5em;
+  border-bottom: gray 1px solid;
+  border-top-left-radius: 1em;
+  border-right: gray 1px solid;
+  border-bottom-right-radius: 4em;
+  border-top-right-radius: 1em;
   color: gray;
   background-color: lightgray;
-  padding: 0.7em;
-  cursor: forbidden;
 }
 .card_label.current {
   color: darkblue;
-  background-color: azure;
+  background-color: lightcyan;
 }
 .card_label.complete {
   color: darkgreen;
@@ -40,7 +43,7 @@
 #cards {
   position: fixed;
   cursor: default;
-  top:4em;
+  top:5.5em;
   right:1em;
   bottom:1em;
   left:1em;
@@ -64,6 +67,9 @@ card.current {
   text-decoration: underline;
   visibility: hidden;
   font-weight: bold;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 4em;
 }
 .ready_button.show {
   visibility: visible;
@@ -99,20 +105,30 @@ div.card_date {
 }
 .person.select_row {
   display: block;
-  transform: translateY(-1.5em);
+  margin: 0.3em 0em 0.0em 0em;
 }
-.group_name {
-  border-top: 1px black solid;
+.group.header > span {
+margin: 1em;
+}
+.group.header {
+  border-bottom: gray 1px solid;
+  border-top-left-radius: 1em;
+  border-right: gray 1px solid;
+  border-bottom-right-radius: 4em;
   border-top-right-radius: 1em;
+  color: darkblue;
+  background-color: lightcyan;
+  margin: 1em 0em 0.5em 0em;
   padding: 0.5em;
-  text-align: right;
-  transform: translateX(-1em);
 }
-.group_count {
+.group.name {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.group.count {
   float: right;
-  transform: translateX(-1.5em);
+  /*transform: translateX(-1.5em);*/
 }
-
 
 
 .select_row {

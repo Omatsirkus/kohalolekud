@@ -66,6 +66,14 @@ $( document ).ready(function() {
         cards.first()
     })
 
+    gui.Window.get().on('focus', function() {
+        // console.log('Got focus')
+        checkAuth(function(data) {
+            configuration.ENTU_USER_ID = data.result.id
+            configuration.ENTU_SESSION_KEY = data.result.session_key
+        })
+    })
+
 
 })
 
