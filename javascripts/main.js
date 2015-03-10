@@ -11,13 +11,18 @@ configuration['ENTU_API_USER'] = configuration.ENTU_API + 'user'
 configuration['ENTU_API_ENTITY'] = configuration.ENTU_API + 'entity'
 configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
-
+console.clear()
 
     // console.log($('.checkbox'))
 
+    $.get( configuration['ENTU_API_AUTH'] )
+        .done(function fetchUserOk( data ) {
+            console.log(data)
+        })
+
     $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
         .done(function fetchGroupsOk( data ) {
-            console.log(data)
+            // console.log(data)
             data.result.forEach(function iterateGroups(entu_group) {
                 console.log(entu_group)
                 var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
