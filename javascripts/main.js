@@ -13,14 +13,14 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
 // console.clear()
 
-console.log('build.1')
+console.log('build.2')
 
 $.get( configuration['ENTU_API_AUTH'] )
     .done(function fetchUserDone( data ) {
         console.log(data)
     })
-    .fail(function fetchUserFail( data ) {
-        console.log(data)
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
     })
 
 $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
