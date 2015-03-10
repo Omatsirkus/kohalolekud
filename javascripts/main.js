@@ -13,10 +13,13 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
 // console.clear()
 
-console.log($('.checkbox'))
+console.log('build.1')
 
 $.get( configuration['ENTU_API_AUTH'] )
-    .done(function fetchUserOk( data ) {
+    .done(function fetchUserDone( data ) {
+        console.log(data)
+    })
+    .fail(function fetchUserFail( data ) {
         console.log(data)
     })
 
