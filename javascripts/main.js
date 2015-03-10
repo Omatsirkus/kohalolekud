@@ -13,27 +13,27 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
 console.clear()
 
-    // console.log($('.checkbox'))
+console.log($('.checkbox'))
 
-    $.get( configuration['ENTU_API_AUTH'] )
-        .done(function fetchUserOk( data ) {
-            console.log(data)
+$.get( configuration['ENTU_API_AUTH'] )
+    .done(function fetchUserOk( data ) {
+        console.log(data)
+    })
+
+$.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
+    .done(function fetchGroupsOk( data ) {
+        // console.log(data)
+        data.result.forEach(function iterateGroups(entu_group) {
+            console.log(entu_group)
+            var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
+            var checkbox_label = $('<label>' + entu_group.name + '</label>')
+            var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" value=""/>')
+            checkbox_label.prepend(checkbox_input)
+            checkbox_div.append(checkbox_label)
+            checkbox_input.on('change', function() {
+                        console.log(checkbox_input)
+                    })
+            $('#select_groups').append(checkbox_div)
         })
 
-    $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
-        .done(function fetchGroupsOk( data ) {
-            // console.log(data)
-            data.result.forEach(function iterateGroups(entu_group) {
-                console.log(entu_group)
-                var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
-                var checkbox_label = $('<label>' + entu_group.name + '</label>')
-                var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" value=""/>')
-                checkbox_label.prepend(checkbox_input)
-                checkbox_div.append(checkbox_label)
-                checkbox_input.on('change', function() {
-                            console.log(checkbox_input)
-                        })
-                $('#select_groups').append(checkbox_div)
-            })
-
-        })
+    })
