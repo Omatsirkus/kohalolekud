@@ -71,6 +71,7 @@ var checkAuth = function checkAuth(successCallback) {
                 $('body').append(login_frame)
                 $('#login_frame').fadeIn(500)
                 $('#login_frame').load( function() {
+                    console.log(document.getElementById( 'login_frame' ))
                     var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
                     try {
                         var result = JSON.parse(doc_body)
