@@ -67,7 +67,7 @@ var checkAuth = function checkAuth(successCallback) {
             successCallback(data)
         })
         .fail(function userFail( data ) {
-            var first_load = true
+            var load_nr = 0
             if ($('#login_frame').length === 0) {
                 $('body').append(login_frame)
                 $('#login_frame').fadeIn(500)
@@ -78,8 +78,9 @@ var checkAuth = function checkAuth(successCallback) {
                     //     var result = JSON.parse(doc_body)
                     //     console.log('Auth page reloaded, user loaded.')
                     //     auth_in_progress = false
-                    if (first_load) {
-                        first_load = false
+                        load_nr ++
+                        console.log('auth load nr ' + load_nr)
+                    if (load_nr === 1) {
                         return
                     }
                         $('#login_frame').detach()
