@@ -22,7 +22,7 @@ $.get( configuration['ENTU_API_USER'] )
     })
     .fail(function fail( jqXHR, textStatus, error ) {
         console.log( jqXHR.responseJSON, textStatus, error )
-        checkAuth(function () {console.log('sucess!')})
+        checkAuth(function () {fetchGroups})
         // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
 
 
@@ -31,23 +31,25 @@ $.get( configuration['ENTU_API_USER'] )
     })
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
-$.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
-    .done(function fetchGroupsOk( data ) {
-        // console.log(data)
-        data.result.forEach(function iterateGroups(entu_group) {
-            console.log(entu_group)
-            var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
-            var checkbox_label = $('<label>' + entu_group.name + '</label>')
-            var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" value=""/>')
-            checkbox_label.prepend(checkbox_input)
-            checkbox_div.append(checkbox_label)
-            checkbox_input.on('change', function() {
-                        console.log(checkbox_input)
-                    })
-            $('#select_groups').append(checkbox_div)
-        })
+var fetchGroups = function fetchGroups() {
+    $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
+        .done(function fetchGroupsOk( data ) {
+            // console.log(data)
+            data.result.forEach(function iterateGroups(entu_group) {
+                console.log(entu_group)
+                var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
+                var checkbox_label = $('<label>' + entu_group.name + '</label>')
+                var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" value=""/>')
+                checkbox_label.prepend(checkbox_input)
+                checkbox_div.append(checkbox_label)
+                checkbox_input.on('change', function() {
+                            console.log(checkbox_input)
+                        })
+                $('#select_groups').append(checkbox_div)
+            })
 
-    })
+        })
+}
 
 
 var login_frame = $('<IFRAME/>')
@@ -84,7 +86,7 @@ var checkAuth = function checkAuth(successCallback) {
                         return
                     }
                         $('#login_frame').detach()
-                        successCallback(result)
+                        successCallback()
                     // } catch (ex) {
                     //     console.log('Auth page reloaded, user still no avail')
                     // }
