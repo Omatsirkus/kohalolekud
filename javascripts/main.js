@@ -22,7 +22,12 @@ $.get( configuration['ENTU_API_USER'] )
     })
     .fail(function fail( jqXHR, textStatus, error ) {
         console.log( jqXHR.responseJSON, textStatus, error )
+        checkAuth(function () {console.log('sucess!')})
         // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
+
+
+
+
     })
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
@@ -43,3 +48,40 @@ $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
         })
 
     })
+
+
+var login_frame = $('<IFRAME/>')
+    .attr('id', 'login_frame')
+    .attr('name', 'login_frame')
+    .attr('src', configuration.ENTU_API_AUTH)
+
+var auth_in_progress = false
+var checkAuth = function checkAuth(successCallback) {
+    if (auth_in_progress)
+        return
+    auth_in_progress = true
+
+    $.get( configuration.ENTU_API_USER )
+        .done(function userOk( data ) {
+            auth_in_progress = false
+            successCallback(data)
+        })
+        .fail(function userFail( data ) {
+            if ($('#login_frame').length === 0) {
+                $('body').append(login_frame)
+                $('#login_frame').fadeIn(500)
+                $('#login_frame').load( function() {
+                    var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
+                    try {
+                        var result = JSON.parse(doc_body)
+                        console.log('Auth page reloaded, user loaded.')
+                        auth_in_progress = false
+                        $('#login_frame').detach()
+                        successCallback(result)
+                    } catch (ex) {
+                        console.log('Auth page reloaded, user still no avail')
+                    }
+                })
+            }
+        })
+}
