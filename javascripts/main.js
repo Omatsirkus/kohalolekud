@@ -83,7 +83,9 @@ var checkAuth = function checkAuth(successCallback) {
                     if (load_nr === 1) {
                         return
                     }
+                        console.log('auth load nr ' + load_nr)
                         $('#login_frame').detach()
+                        console.log('auth load nr ' + load_nr)
                         successCallback()
                     // } catch (ex) {
                     //     console.log('Auth page reloaded, user still no avail')
