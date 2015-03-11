@@ -19,14 +19,12 @@ $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
         console.log(data)
         $('#user_email').text(data.result.name)
+        fetchGroups()
     })
     .fail(function fail( jqXHR, textStatus, error ) {
         console.log( jqXHR.responseJSON, textStatus, error )
         checkAuth(function () {fetchGroups})
         // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
-
-
-
 
     })
 
@@ -34,7 +32,7 @@ $.get( configuration['ENTU_API_USER'] )
 var fetchGroups = function fetchGroups() {
     $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
         .done(function fetchGroupsOk( data ) {
-            // console.log(data)
+            console.log(data)
             data.result.forEach(function iterateGroups(entu_group) {
                 console.log(entu_group)
                 var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
