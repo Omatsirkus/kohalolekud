@@ -72,16 +72,16 @@ var checkAuth = function checkAuth(successCallback) {
                 $('#login_frame').fadeIn(500)
                 $('#login_frame').load( function() {
                     console.log(document.getElementById( 'login_frame' ))
-                    var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
-                    try {
-                        var result = JSON.parse(doc_body)
-                        console.log('Auth page reloaded, user loaded.')
-                        auth_in_progress = false
+                    // var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
+                    // try {
+                    //     var result = JSON.parse(doc_body)
+                    //     console.log('Auth page reloaded, user loaded.')
+                    //     auth_in_progress = false
                         $('#login_frame').detach()
                         successCallback(result)
-                    } catch (ex) {
-                        console.log('Auth page reloaded, user still no avail')
-                    }
+                    // } catch (ex) {
+                    //     console.log('Auth page reloaded, user still no avail')
+                    // }
                 })
             }
         })
