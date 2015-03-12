@@ -33,23 +33,41 @@ $('#back_to_groups_btn').click(function(event) {
 
 $('#start_datetime')
     .datetimepicker({
-        format: "dd MM yyyy - hh:ii",
-        linkField: "mirror_field",
+        format: "yyyy-mm-dd hh:ii",
+        linkField: "mirror_field1",
         linkFormat: "yyyy-mm-dd hh:ii"
     })
     .on('changeDate', function(ev) {
         console.log(ev.date.valueOf())
+        d = new Date()
+        d.setTime(ev.date.valueOf())
+        $('#start_datetime').attr('gettime', ev.date.valueOf())
+        $('#start_datetime').attr('data-date', d.toJSON())
+        if ($('#end_datetime').attr('gettime') === undefined) {
+            $('#end_datetime').attr('gettime', $('#start_datetime').attr('gettime'))
+            $('#end_datetime').attr('data-date', $('#start_datetime').attr('data-date'))
+            $('#end_datetime > input').prop('value',$('#start_datetime > input').prop('value').valueOf())
+        }
         $('.datetimepicker').first().css('display','none')
     })
 
 $('#end_datetime')
     .datetimepicker({
-        format: "dd MM yyyy - hh:ii",
-        linkField: "mirror_field",
+        format: "yyyy-mm-dd hh:ii",
+        linkField: "mirror_field2",
         linkFormat: "yyyy-mm-dd hh:ii"
     })
     .on('changeDate', function(ev) {
         console.log(ev.date.valueOf())
+        d = new Date()
+        d.setTime(ev.date.valueOf())
+        $('#end_datetime').attr('gettime', ev.date.valueOf())
+        $('#end_datetime').attr('data-date', d.toJSON())
+        if ($('#start_datetime').attr('gettime') === undefined) {
+            $('#start_datetime').attr('gettime', $('#end_datetime').attr('gettime'))
+            $('#start_datetime').attr('data-date', $('#end_datetime').attr('data-date'))
+            $('#start_datetime > input').prop('value',$('#end_datetime > input').prop('value').valueOf())
+        }
         $('.datetimepicker').last().css('display','none')
     })
 
