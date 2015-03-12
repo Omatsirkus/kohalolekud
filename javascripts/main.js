@@ -43,6 +43,17 @@ $.get( configuration['ENTU_API_USER'] )
 
     })
 
+$('#start_datetime').datetimepicker({
+        format: "dd MM yyyy - hh:ii",
+        linkField: "mirror_field",
+        linkFormat: "yyyy-mm-dd hh:ii"
+    })
+$('#end_datetime').datetimepicker({
+        format: "dd MM yyyy - hh:ii",
+        linkField: "mirror_field",
+        linkFormat: "yyyy-mm-dd hh:ii"
+    })
+
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
 var fetchPersons = function fetchPersons() {
 
@@ -73,6 +84,7 @@ var fetchGroups = function fetchGroups() {
                 $('#select_groups').append(checkbox_div)
             })
         })
+
 }
 
 
