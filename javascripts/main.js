@@ -30,6 +30,17 @@ $('#back_to_groups_btn').click(function(event) {
     $('#groups_rdy_btn').removeClass('hide').addClass('show')
 })
 
+$('#start_datetime').datetimepicker({
+        format: "dd MM yyyy - hh:ii",
+        linkField: "mirror_field",
+        linkFormat: "yyyy-mm-dd hh:ii"
+    })
+$('#end_datetime').datetimepicker({
+        format: "dd MM yyyy - hh:ii",
+        linkField: "mirror_field",
+        linkFormat: "yyyy-mm-dd hh:ii"
+    })
+
 $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
         console.log(data)
@@ -43,16 +54,6 @@ $.get( configuration['ENTU_API_USER'] )
 
     })
 
-$('#start_datetime').datetimepicker({
-        format: "dd MM yyyy - hh:ii",
-        linkField: "mirror_field",
-        linkFormat: "yyyy-mm-dd hh:ii"
-    })
-$('#end_datetime').datetimepicker({
-        format: "dd MM yyyy - hh:ii",
-        linkField: "mirror_field",
-        linkFormat: "yyyy-mm-dd hh:ii"
-    })
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
 var fetchPersons = function fetchPersons() {
