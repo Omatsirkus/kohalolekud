@@ -1,0 +1,29 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+div.checkbox {
+}
+div.checkbox > label {
+    width: 100%;
+}
+div.checkbox > label:hover {
+    width: 100%;
+    background-color: lightgray;
+}
+
+.pager > li.show, .card.show {
+    visibility: visible;
+}
+.pager > li.hide, .card.hide {
+    visibility: hidden;
+}
+
+#login_frame {
+    position: fixed;
+    height: 100%;
+}
