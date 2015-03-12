@@ -13,7 +13,8 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
 // console.clear()
 
-console.log('build.7')
+
+console.log('build.8')
 
 $('#groups_rdy_btn').click(function(event) {
     $('#select_participants').removeClass('hide').addClass('show')
@@ -30,29 +31,41 @@ $('#back_to_groups_btn').click(function(event) {
     $('#groups_rdy_btn').removeClass('hide').addClass('show')
 })
 
-$('#start_datetime').datetimepicker({
+$('#start_datetime')
+    .datetimepicker({
         format: "dd MM yyyy - hh:ii",
         linkField: "mirror_field",
         linkFormat: "yyyy-mm-dd hh:ii"
     })
-$('#end_datetime').datetimepicker({
+    .on('changeDate', function(ev) {
+        console.log(ev.date.valueOf())
+        $('.datetimepicker').first().css('display','none')
+    })
+
+$('#end_datetime')
+    .datetimepicker({
         format: "dd MM yyyy - hh:ii",
         linkField: "mirror_field",
         linkFormat: "yyyy-mm-dd hh:ii"
     })
-
-$.get( configuration['ENTU_API_USER'] )
-    .done(function fetchUserDone( data ) {
-        console.log(data)
-        $('#user_email').text(data.result.name)
-        fetchGroups()
+    .on('changeDate', function(ev) {
+        console.log(ev.date.valueOf())
+        $('.datetimepicker').last().css('display','none')
     })
-    .fail(function fail( jqXHR, textStatus, error ) {
-        console.log( jqXHR.responseJSON, textStatus, error )
-        checkAuth(function () {fetchGroups})
-        // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
 
-    })
+
+// $.get( configuration['ENTU_API_USER'] )
+//     .done(function fetchUserDone( data ) {
+//         console.log(data)
+//         $('#user_email').text(data.result.name)
+//         fetchGroups()
+//     })
+//     .fail(function fail( jqXHR, textStatus, error ) {
+//         console.log( jqXHR.responseJSON, textStatus, error )
+//         checkAuth(function () {fetchGroups})
+//         // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
+
+//     })
 
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
