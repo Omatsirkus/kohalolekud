@@ -15,6 +15,21 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
 console.log('build.7')
 
+$('#groups_rdy_btn').click(function(event) {
+    $('#select_participants').removeClass('hide').addClass('show')
+    $('#select_groups').removeClass('show').addClass('hide')
+    fetchPersons()
+    $('#groups_rdy_btn').removeClass('show').addClass('hide')
+    $('#back_to_groups_btn').removeClass('hide').addClass('show')
+})
+$('#back_to_groups_btn').click(function(event) {
+    $('#select_groups').removeClass('hide').addClass('show')
+    $('#select_participants').removeClass('show').addClass('hide')
+    fetchGroups()
+    $('#back_to_groups_btn').removeClass('show').addClass('hide')
+    $('#groups_rdy_btn').removeClass('hide').addClass('show')
+})
+
 $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
         console.log(data)
@@ -29,23 +44,34 @@ $.get( configuration['ENTU_API_USER'] )
     })
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
+var fetchPersons = function fetchPersons() {
+
+}
+
 var fetchGroups = function fetchGroups() {
+    if ($('#select_groups').children().size() > 0) {
+        return
+    }
+    console.log('Accessing ' + configuration['ENTU_API_ENTITY'] + '?definition=group')
     $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
         .done(function fetchGroupsOk( data ) {
             console.log(data)
             data.result.forEach(function iterateGroups(entu_group) {
-                console.log(entu_group)
+                // console.log(entu_group)
                 var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
                 var checkbox_label = $('<label>' + entu_group.name + '</label>')
                 var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" value=""/>')
                 checkbox_label.prepend(checkbox_input)
                 checkbox_div.append(checkbox_label)
                 checkbox_input.on('change', function() {
-                            console.log(checkbox_input)
-                        })
+                    if ($('#select_groups > .checkbox > label > :checked').size() > 0) {
+                        $('#groups_rdy_btn').removeClass('hide').addClass('show')
+                    } else {
+                        $('#groups_rdy_btn').removeClass('show').addClass('hide')
+                    }
+                })
                 $('#select_groups').append(checkbox_div)
             })
-
         })
 }
 
@@ -73,23 +99,24 @@ var checkAuth = function checkAuth(successCallback) {
                 $('#login_frame').fadeIn(500)
                 $('#login_frame').load( function() {
                     console.log(document.getElementById( 'login_frame' ))
-                    // var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
-                    // try {
-                    //     var result = JSON.parse(doc_body)
-                    //     console.log('Auth page reloaded, user loaded.')
-                    //     auth_in_progress = false
-                        load_nr ++
-                        console.log('auth load nr ' + load_nr)
-                    if (load_nr === 1) {
-                        return
-                    }
-                        console.log('auth load nr ' + load_nr)
-                        $('#login_frame').detach()
-                        console.log('auth load nr ' + load_nr)
-                        successCallback()
-                    // } catch (ex) {
-                    //     console.log('Auth page reloaded, user still no avail')
+                    var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
+                    try {
+                        var result = JSON.parse(doc_body)
+                        console.log('Auth page reloaded, user loaded.')
+                        auth_in_progress = false
+                    //     load_nr ++
+                    //     console.log('auth load nr ' + load_nr)
+                    // if (load_nr === 1) {
+                    //     return
                     // }
+                    //     console.log('auth load nr ' + load_nr)
+                        $('#login_frame').detach()
+                    //     console.log('auth load nr ' + load_nr)
+                        successCallback()
+                        console.log('successCallback called.')
+                    } catch (ex) {
+                        console.log('Auth page reloaded, user still no avail')
+                    }
                 })
             }
         })
