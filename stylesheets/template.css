@@ -28,6 +28,7 @@ div.checkbox > label:hover {
 }
 
 #login_frame {
-    position: fixed;
-    height: 100%;
+  position: fixed;
+  top : 0px;
+  height: 500px;
 }
