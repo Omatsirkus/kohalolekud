@@ -49,13 +49,15 @@ $('#start_datetime')
 
 $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
-        console.log(data)
         $('#user_email').text(data.result.name)
         fetchGroups()
     })
     .fail(function fail( jqXHR, textStatus, error ) {
         console.log( jqXHR.responseJSON, textStatus, error )
-        checkAuth(function () {fetchGroups})
+        checkAuth(function fetchUserDone( data ) {
+            $('#user_email').text(data.result.name)
+            fetchGroups()
+        })
         // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
 
     })
@@ -121,18 +123,12 @@ var checkAuth = function checkAuth(successCallback) {
                     var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
                     try {
                         var result = JSON.parse(doc_body)
+                        console.log(result)
                         console.log('Auth page reloaded, user loaded.')
                         auth_in_progress = false
-                    //     load_nr ++
-                    //     console.log('auth load nr ' + load_nr)
-                    // if (load_nr === 1) {
-                    //     return
-                    // }
-                    //     console.log('auth load nr ' + load_nr)
                         $('#login_frame').detach()
-                    //     console.log('auth load nr ' + load_nr)
-                        successCallback()
-                        console.log('successCallback called.')
+                        checkAuth(successCallback)
+                        console.log('successCallback passed for new check.')
                     } catch (ex) {
                         console.log('Auth page reloaded, user still no avail')
                     }
