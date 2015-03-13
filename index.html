@@ -40,12 +40,21 @@
             </div>
             <div id="hours" class="row">
                 <label for="hours_num" class="control-label col-md-2">Tunde</label>
-                <input id="hours_num" type="number" class="col-md-2">
+                <input id="hours_num" type="number" value="1" min="1" class="col-md-2">
+            </div>
+            <div class="row">
+                <label for="end_datetime" class="control-label col-md-2">Lõpp</label>
+                <input id="end_datetime" type="text" value="" readonly class="col-md-2">
             </div>
 
             <div id="select_groups" class="card show">
             </div>
-            <div id="select_participants" class="card hide"></div>
+            <div id="select_participants" class="card hide">
+                <div id="select_couches">
+                </div>
+                <div id="select_trainees">
+                </div>
+            </div>
 
             <nav>
               <ul class="pager">
