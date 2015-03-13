@@ -114,7 +114,7 @@ var checkAuth = function checkAuth(successCallback) {
         .fail(function userFail( data ) {
             var load_nr = 0
             if ($('#login_frame').length === 0) {
-                $('body').append(login_frame)
+                $('body').prepend(login_frame)
                 $('#login_frame').fadeIn(500)
                 $('#login_frame').load( function() {
                     console.log(document.getElementById( 'login_frame' ))
