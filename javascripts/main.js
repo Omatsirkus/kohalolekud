@@ -130,9 +130,10 @@ var refreshEndDatetime = function refreshEndDatetime( gettime ) {
     $('#start_datetime').attr('data-date', start_d.toJSON())
     $('.datetimepicker').first().css('display','none')
 
-    var hours = Number($('#hours_num')[0].value)
-    var duration_ms = hours * configuration.hour_minutes * 60 * 1000 + gettime
-    var duration_hours = hours * configuration.hour_minutes / 60
+    // var hours = Number($('#hours_num')[0].value)
+    var minutes = Number($('[name="durationOptions"]:checked').val())
+    var duration_ms = minutes * 60 * 1000 + gettime
+    var duration_hours = minutes / 60
     var end_d = new Date()
     end_d.setTime(duration_ms)
 
@@ -181,7 +182,7 @@ $('#start_datetime')
     .on('changeDate', function(ev) {
         refreshEndDatetime(ev.date.valueOf())
     })
-$('#hours_num').change(function() {
+$('[name="durationOptions"]').change(function() {
     if ($('#start_datetime').attr('gettime') !== undefined)
         refreshEndDatetime(Number($('#start_datetime').attr('gettime')))
 })
@@ -206,7 +207,7 @@ $.get( configuration['ENTU_API_USER'] )
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
 var fetchPersons = function fetchPersons() {
-    var groups = $('#select_groups > .checkbox > label > :checked')
+    var groups = $('#select_groups > .CB > label > :checked')
     var number_of_entu_connections = 0
 
     var fetchCoaches = function fetchCoaches() {
@@ -341,21 +342,19 @@ var fetchGroups = function fetchGroups() {
         })
 
 
-
-
     console.log('Accessing ' + configuration['ENTU_API_ENTITY'] + '?definition=group')
     $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
         .done(function fetchGroupsOk( data ) {
             // console.log(data)
             data.result.forEach(function iterateGroups(entu_group) {
                 // console.log(entu_group)
-                var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
+                var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="CB col-xs-6 col-sm-4 col-md-3 col-lg-3"/>')
                 var checkbox_label = $('<label>' + entu_group.name + '</label>')
                 var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" name="' + entu_group.name + '" value=""/>')
                 checkbox_label.prepend(checkbox_input)
                 checkbox_div.append(checkbox_label)
                 checkbox_input.on('change', function() {
-                    if ($('#select_groups > .checkbox > label > :checked').size() > 0) {
+                    if ($('#select_groups > .CB > label > :checked').size() > 0) {
                         $('#groups_rdy_btn').removeClass('hide').addClass('show')
                     } else {
                         alert('Ei saa viimast rühma maha võtta!')

@@ -6,14 +6,17 @@ body {
   text-align: center;
 }
 
-div.checkbox {
+div.CB {
 }
-div.checkbox > label {
+div.CB > label {
     width: 100%;
 }
-div.checkbox > label:hover {
+div.CB > label:hover {
     width: 100%;
     background-color: lightgray;
+}
+div.CB > label > input[type=checkbox] {
+  margin: 0.5em;
 }
 
 .pager > li.show, .card.show {
@@ -44,6 +47,3 @@ div.checkbox > label:hover {
   border-radius: 0.5em;
 }
 
-.select_row input[type=checkbox] {
-  margin: 0.5em;
-}

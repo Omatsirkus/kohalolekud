@@ -29,13 +29,13 @@
             </div>
 
             <div class="row">
-                <label for="user_email" class="control-label col-md-2">User</label>
-                <div id="user_email" class="col-md-2"></div>
+                <label for="user_email" class="control-label col-md-2">Kasutaja</label>
+                <div id="user_email" class="col-md-10"></div>
             </div>
             <div id="datetime" class="row">
-                <label for="start_datetime" class="control-label col-md-2">Algus</label>
+                <label for="start_datetime" class="control-label col-md-2">Kuupäev</label>
 
-                <div id="start_datetime" class="input-append date form_datetime col-md-2" data-date="">
+                <div id="start_datetime" class="input-append date form_datetime col-md-10" data-date="">
                     <input size="16" type="text" value="" readonly>
                     <span class="add-on"><i class="icon-remove"></i></span>
                     <span class="add-on"><i class="icon-th"></i></span>
@@ -43,15 +43,27 @@
 
             </div>
             <div id="hours" class="row">
-                <label for="hours_num" class="control-label col-md-2">Tunde</label>
-                <input id="hours_num" type="number" value="1" min="1" class="col-md-2">
+                <label for="duration" class="control-label col-md-2">Kestus</label>
+                <!-- <input id="hours_num" type="number" value="1" min="1" class="col-md-2"> -->
+                <div id="duration" class=" col-md-10">
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio1" value="60" checked> 1h
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio2" value="90"> 1h30
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio3" value="120"> 2h
+                    </label>
+                </div>
             </div>
-            <div class="row">
-                <label for="end_datetime" class="control-label col-md-2">Lõpp</label>
-                <input id="end_datetime" type="text" value="" readonly class="col-md-2">
+            <div class="row" style="display:none;">
+                <label for="end_datetime" class="control-label col-xs-2">Lõpp</label>
+                <input id="end_datetime" type="text" value="" readonly>
             </div>
 
-            <div id="select_groups" class="card show">
+                <hr></hr>
+            <div id="select_groups" class="card show row">
             </div>
             <div id="select_participants" class="card hide">
                 <div id="select_couches">
