@@ -12,7 +12,7 @@ var configuration = require('../configuration.js')
 var translate     = require('../translations/translate.js')
 
 
-var training_session = {eid:undefined, start:undefined, end:undefined, groups:{}, couches:{}, trainees:{}}
+var training_session = {eid:undefined, start:undefined, end:undefined, groups:{}, coaches:{}, trainees:{}}
 
 var refresh = function refresh(group_eid, checkbox_input, group_size_span) {
     checkbox_input.attr('disabled', true)
@@ -85,7 +85,7 @@ var load = function load() {
                     coach_id    : properties.coach.values[0].db_value,
                     coach_name  : properties.coach.values[0].value
                 }
-                training_session.couches[properties.coach.values[0].db_value] = {
+                training_session.coaches[properties.coach.values[0].db_value] = {
                     name        : properties.coach.values[0].value
                 }
                 $.get( )
