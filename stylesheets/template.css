@@ -33,3 +33,17 @@ div.checkbox > label:hover {
   height: 500px;
   width: 200px;
 }
+
+.group.header {
+  background-color: gray;
+  font-weight: bold;
+  padding: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: white;
+  border-radius: 0.5em;
+}
+
+.select_row input[type=checkbox] {
+  margin: 0.5em;
+}

@@ -1,4 +1,5 @@
 var configuration = {
+  "hour_minutes": 45,
   "language": "estonian",
   "cards": ["groups", "mark"],
   "ENTU_URI": 'https://omatsirkus.entu.ee/',
@@ -14,7 +15,7 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 // console.clear()
 
 
-var training_session = {eid:undefined, start:undefined, end:undefined, groups:{}, coaches:{}, trainees:{}}
+var training_session = {eid:undefined, start:undefined, duration_hours:undefined, groups:{}, coaches:{}, trainees:{}}
 
 var addEntuCoach = function addEntuCoach(coach_eid) {
     $.ajax({
@@ -103,27 +104,54 @@ var addEntuStartTime = function addEntuStartTime(start_datetime) {
     })
 }
 
+var addEntuduration = function addEntuduration(duration_hours) {
+    if (training_session.duration_hours !== undefined) {
+        var entu_property = 'kohalolek-tunde.' + training_session.duration_hours['pid']
+        removeEntuProperty(entu_property)
+    }
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
+        type: 'PUT',
+        data: { 'kohalolek-tunde'       : duration_hours }
+    })
+    .done(function done( data ) {
+        console.log( 'Success:', data )
+        training_session.duration_hours = { pid: data.result.properties['kohalolek-tunde'][0].id }
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
 var refreshEndDatetime = function refreshEndDatetime( gettime ) {
-    d = new Date()
-    d.setTime(gettime)
+    start_d = new Date()
+    start_d.setTime(gettime)
     $('#start_datetime').attr('gettime', gettime)
-    $('#start_datetime').attr('data-date', d.toJSON())
+    $('#start_datetime').attr('data-date', start_d.toJSON())
     $('.datetimepicker').first().css('display','none')
+
+    var hours = Number($('#hours_num')[0].value)
+    var duration_ms = hours * configuration.hour_minutes * 60 * 1000 + gettime
+    var duration_hours = hours * configuration.hour_minutes / 60
+    var end_d = new Date()
+    end_d.setTime(duration_ms)
+
+    $('#end_datetime').attr('gettime', duration_ms)
+    $('#end_datetime').attr('data-date', end_d.toJSON())
+    $('#end_datetime')[0].value = end_d.toJSON().replace('T',' ').slice(0,16)
+
+    $('.group.time').each(function () {$(this).text(start_d.toJSON().replace('T',' ').slice(0,16))})
 
     if (training_session.eid === undefined) {
         addEntuKohalolek(function successCallback() {
-            addEntuStartTime(d)
+            addEntuStartTime(start_d)
+            addEntuduration(duration_hours)
         })
     } else {
-        addEntuStartTime(d)
+        addEntuStartTime(start_d)
+            addEntuduration(duration_hours)
     }
 
-    var hours = Number($('#hours_num')[0].value)
-    var ms = hours * 60 * 60 * 1000 + gettime
-    d.setTime(ms)
-    $('#end_datetime').attr('gettime', ms)
-    $('#end_datetime').attr('data-date', d.toJSON())
-    $('#end_datetime')[0].value = d.toJSON().replace('T',' ').slice(0,16)
 }
 
 
@@ -246,26 +274,26 @@ var fetchPersons = function fetchPersons() {
                     $('#select_trainees').append(group_div)
 
                     var group_header_div = $('<div id="group_header_' + group_eid
-                        + '" eid="' + group_eid + '" class="group header">')
+                        + '" eid="' + group_eid + '" class="group header row">')
                     group_div.append(group_header_div)
 
                     var group_name_span = $('<span id="group_name_' + group_eid
-                        + '" eid="' + group_eid + '" class="group name">'
+                        + '" eid="' + group_eid + '" class="group name col-xs-2">'
                         + group_name + '</span>')
                     group_header_div.append(group_name_span)
 
                     var group_time_span = $('<span id="group_time_' + group_eid
-                        + '" eid="' + group_eid + '" class="group time">'
-                        + $('#start_datetime')[0].value)
+                        + '" eid="' + group_eid + '" class="group time col-xs-2">'
+                        + $('#start_datetime > input')[0].value + '</span>')
                     group_header_div.append(group_time_span)
 
                     var group_size_span = $('<span id="group_size_' + group_eid
-                        + '" eid="' + group_eid + '" class="group size">')
+                        + '" eid="' + group_eid + '" class="group size col-xs-2">')
                         .text('Ei kedagi')
                     group_header_div.append(group_size_span)
 
                     var group_persons_div = $('<div id="group_persons_' + group_eid
-                        + '" eid="' + group_eid + '" class="group persons">')
+                        + '" eid="' + group_eid + '" class="group persons row">')
                     group_div.append(group_persons_div)
 
 
@@ -277,7 +305,7 @@ var fetchPersons = function fetchPersons() {
                             refresh(group_eid, checkbox_input, group_size_span)
                         })
                         var checkbox_label = $('<label for="CB_' + person_eid + '">' + person_name + '</label>')
-                        group_persons_div.append($('<label for="CB_' + person_eid + '" class="person select_row"/>')
+                        group_persons_div.append($('<label for="CB_' + person_eid + '" class="person select_row col-xs-6 col-sm-4 col-md-3 col-lg-3"/>')
                             .append(checkbox_input)
                             .append(checkbox_label)
                         )
