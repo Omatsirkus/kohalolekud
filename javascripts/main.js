@@ -14,7 +14,120 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 // console.clear()
 
 
-console.log('build.8')
+var training_session = {eid:undefined, start:undefined, end:undefined, groups:{}, coaches:{}, trainees:{}}
+
+var addEntuCoach = function addEntuCoach(coach_eid) {
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
+        type: 'PUT',
+        data: { 'kohalolek-coach'       : coach_eid }
+    })
+    .done(function done( data ) {
+        console.log( 'Success:', data )
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
+var addEntuGroup = function addEntuGroup(group_eid) {
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
+        type: 'PUT',
+        data: { 'kohalolek-group'       : group_eid }
+    })
+    .done(function done( data ) {
+        console.log( 'Success:', data )
+        training_session.groups[group_eid] = { pid: data.result.properties['kohalolek-group'][0].id }
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
+var removeEntuProperty = function removeEntuProperty(entu_property) {
+    console.log( 'Removing property ' + entu_property)
+    var data = {}
+    data[entu_property] = null
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
+        type: 'PUT',
+        data: data
+    })
+    .done(function done( data ) {
+        console.log( 'Success:', data )
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
+var removeEntuGroup = function removeEntuGroup(group_eid) {
+    var entu_property = 'kohalolek-group.' + training_session.groups[group_eid]['pid']
+    removeEntuProperty(entu_property)
+}
+
+var addEntuKohalolek = function addEntuKohalolek(successCallback) {
+    var post_data = {'definition': 'kohalolek'}
+    console.log(configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid)
+    $.post((configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid), post_data, function(returned_data) {
+        training_session.eid = returned_data.result.id
+        console.log(returned_data.result.id)
+        console.log(training_session.eid)
+        addEntuCoach(configuration.ENTU_USER_ID)
+        successCallback()
+        $('#entu_link').append('<a href="' + configuration.ENTU_URI + 'entity/kohalolek/' + returned_data.result.id + '" target="entu_link">Link Entusse</a>')
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
+var addEntuStartTime = function addEntuStartTime(start_datetime) {
+    if (training_session.start !== undefined) {
+        var entu_property = 'kohalolek-algus.' + training_session.start['pid']
+        removeEntuProperty(entu_property)
+    }
+    start_datetime = start_datetime.toJSON().replace('T',' ').slice(0, 16)
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
+        type: 'PUT',
+        data: { 'kohalolek-algus'       : start_datetime }
+    })
+    .done(function done( data ) {
+        console.log( 'Success:', data )
+        training_session.start = { pid: data.result.properties['kohalolek-algus'][0].id }
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
+var refreshEndDatetime = function refreshEndDatetime( gettime ) {
+    d = new Date()
+    d.setTime(gettime)
+    $('#start_datetime').attr('gettime', gettime)
+    $('#start_datetime').attr('data-date', d.toJSON())
+    $('.datetimepicker').first().css('display','none')
+
+    if (training_session.eid === undefined) {
+        addEntuKohalolek(function successCallback() {
+            addEntuStartTime(d)
+        })
+    } else {
+        addEntuStartTime(d)
+    }
+
+    var hours = Number($('#hours_num')[0].value)
+    var ms = hours * 60 * 60 * 1000 + gettime
+    d.setTime(ms)
+    $('#end_datetime').attr('gettime', ms)
+    $('#end_datetime').attr('data-date', d.toJSON())
+    $('#end_datetime')[0].value = d.toJSON().replace('T',' ').slice(0,16)
+}
+
+
+console.log('build.9')
 
 $('#groups_rdy_btn').click(function(event) {
     $('#select_participants').removeClass('hide').addClass('show')
@@ -31,19 +144,6 @@ $('#back_to_groups_btn').click(function(event) {
     $('#groups_rdy_btn').removeClass('hide').addClass('show')
 })
 
-var refreshEndDatetime = function refreshEndDatetime( gettime ) {
-    d = new Date()
-    d.setTime(gettime)
-    $('#start_datetime').attr('gettime', gettime)
-    $('#start_datetime').attr('data-date', d.toJSON())
-    $('.datetimepicker').first().css('display','none')
-    var hours = Number($('#hours_num')[0].value)
-    var ms = hours * 60 * 60 * 1000 + gettime
-    d.setTime(ms)
-    $('#end_datetime').attr('gettime', ms)
-    $('#end_datetime').attr('data-date', d.toJSON())
-    $('#end_datetime')[0].value = d.toJSON().replace('T',' ').slice(0,16)
-}
 $('#start_datetime')
     .datetimepicker({
         format: "yyyy-mm-dd hh:ii",
@@ -61,6 +161,8 @@ $('#hours_num').change(function() {
 $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
         $('#user_email').text(data.result.name)
+        // console.log(data.result.id)
+        configuration['ENTU_USER_ID'] = data.result.id
         fetchGroups()
     })
     .fail(function fail( jqXHR, textStatus, error ) {
@@ -76,7 +178,6 @@ $.get( configuration['ENTU_API_USER'] )
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
 var fetchPersons = function fetchPersons() {
-    var training_session = {eid:undefined, start:undefined, end:undefined, groups:{}, coaches:{}, trainees:{}}
     var groups = $('#select_groups > .checkbox > label > :checked')
     var number_of_entu_connections = 0
 
@@ -155,12 +256,12 @@ var fetchPersons = function fetchPersons() {
 
                     var group_time_span = $('<span id="group_time_' + group_eid
                         + '" eid="' + group_eid + '" class="group time">'
-                        + training_session.start.format('dddd, Do MMMM, YYYY, HH:mm') + '</span>')
+                        + $('#start_datetime')[0].value)
                     group_header_div.append(group_time_span)
 
                     var group_size_span = $('<span id="group_size_' + group_eid
                         + '" eid="' + group_eid + '" class="group size">')
-                        .text(translate('nobody', true))
+                        .text('Ei kedagi')
                     group_header_div.append(group_size_span)
 
                     var group_persons_div = $('<div id="group_persons_' + group_eid
@@ -203,30 +304,48 @@ var fetchGroups = function fetchGroups() {
             if (['owner','editor','expander'].indexOf(data.result.right) === -1) {
                 console.log(data.result.right + ' is not enough privileges on entity ' + configuration.kohalolekud_eid)
                 throw ('Not enough privileges on entity ' + configuration.kohalolekud_eid)
+                alert ('Not enough privileges on entity ' + configuration.kohalolekud_eid)
             }
+
         })
         .fail(function fetchFolder( data ) {
             throw 'Cant fetch root folder.'
         })
 
 
+
+
     console.log('Accessing ' + configuration['ENTU_API_ENTITY'] + '?definition=group')
     $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
         .done(function fetchGroupsOk( data ) {
-            console.log(data)
+            // console.log(data)
             data.result.forEach(function iterateGroups(entu_group) {
                 // console.log(entu_group)
                 var checkbox_div = $('<div for="CB_' + entu_group.id + '" class="checkbox"/>')
                 var checkbox_label = $('<label>' + entu_group.name + '</label>')
-                var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" value=""/>')
+                var checkbox_input = $('<input type="checkbox" id="CB_' + entu_group.id + '" eid="' + entu_group.id + '" name="' + entu_group.name + '" value=""/>')
                 checkbox_label.prepend(checkbox_input)
                 checkbox_div.append(checkbox_label)
                 checkbox_input.on('change', function() {
                     if ($('#select_groups > .checkbox > label > :checked').size() > 0) {
                         $('#groups_rdy_btn').removeClass('hide').addClass('show')
                     } else {
-                        $('#groups_rdy_btn').removeClass('show').addClass('hide')
+                        alert('Ei saa viimast rühma maha võtta!')
+                        checkbox_input.prop('checked', true);
                     }
+                    var group_eid = checkbox_input.attr('eid')
+                    if (training_session.eid === undefined) {
+                        addEntuKohalolek(function successCallback() {
+                            addEntuGroup(group_eid)
+                        })
+                    } else if (checkbox_input.is(':checked')) {
+                        addEntuGroup(group_eid)
+                    } else {
+                        removeEntuGroup(group_eid)
+                    }
+
+
+
                 })
                 $('#select_groups').append(checkbox_div)
             })
