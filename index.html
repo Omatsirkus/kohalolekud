@@ -16,6 +16,7 @@
 
         <!-- Custom styles for this template -->
         <link href="stylesheets/template.css" rel="stylesheet">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
     </head>
@@ -23,16 +24,18 @@
 
     <body class="modal-body">
 
-        <div class="container" class="col-md-4">
+        <div id="container" class="container" class="col-md-4">
 
-            <div id="entu_link" class="row">
+            <div class="row">
+                <label for="entu_link" class="control-label col-md-2">ENTU</label>
+                <div id="entu_link" class="col-md-10"></div>
             </div>
 
             <div class="row">
                 <label for="user_email" class="control-label col-md-2">Kasutaja</label>
-                <div id="user_email" class="col-md-10"></div>
+                <div id="user_email" class="col-md-10">Ootan vastust <i class="fa fa-circle-o-notch fa-spin"></i></div>
             </div>
-            <div id="datetime" class="row">
+            <div id="datetime" class="row" style="display:none;">
                 <label for="start_datetime" class="control-label col-md-2">Kuupäev</label>
 
                 <div id="start_datetime" class="input-append date form_datetime col-md-10" data-date="">
@@ -42,10 +45,13 @@
                 </div>
 
             </div>
-            <div id="hours" class="row">
+            <div id="hours" class="row" style="display:none;">
                 <label for="duration" class="control-label col-md-2">Kestus</label>
                 <!-- <input id="hours_num" type="number" value="1" min="1" class="col-md-2"> -->
                 <div id="duration" class=" col-md-10">
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio1" value="45"> 45m
+                    </label>
                     <label class="radio-inline">
                       <input type="radio" name="durationOptions" id="inlineRadio1" value="60" checked> 1h
                     </label>
@@ -57,12 +63,9 @@
                     </label>
                 </div>
             </div>
-            <div class="row" style="display:none;">
-                <label for="end_datetime" class="control-label col-xs-2">Lõpp</label>
-                <input id="end_datetime" type="text" value="" readonly>
-            </div>
 
-                <hr></hr>
+            <hr></hr>
+
             <div id="select_groups" class="card show row">
             </div>
             <div id="select_participants" class="card hide">
@@ -74,7 +77,7 @@
 
             <nav>
               <ul class="pager">
-                <li id="back_to_groups_btn" class="hide"><a href="#">Tagasi</a></li>
+                <!-- <li id="back_to_groups_btn" class="hide"><a href="#">Tagasi</a></li> -->
                 <li id="groups_rdy_btn" class="hide"><a href="#">Edasi</a></li>
               </ul>
             </nav>

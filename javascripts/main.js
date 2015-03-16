@@ -2,7 +2,7 @@ var configuration = {
   "hour_minutes": 45,
   "language": "estonian",
   "cards": ["groups", "mark"],
-  "ENTU_URI": 'https://omatsirkus.entu.ee/',
+  "ENTU_URI": 'https://devm.entu.ee/',
   "kohalolekud_eid": 652
 }
 
@@ -46,6 +46,21 @@ var addEntuGroup = function addEntuGroup(group_eid) {
     })
 }
 
+var addEntuTrainee = function addEntuTrainee(trainee_eid) {
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
+        type: 'PUT',
+        data: { 'kohalolek-student'       : trainee_eid }
+    })
+    .done(function done( data ) {
+        console.log( 'Success:', data )
+        training_session.trainees[trainee_eid] = { pid: data.result.properties['kohalolek-student'][0].id }
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
 var removeEntuProperty = function removeEntuProperty(entu_property) {
     console.log( 'Removing property ' + entu_property)
     var data = {}
@@ -65,6 +80,11 @@ var removeEntuProperty = function removeEntuProperty(entu_property) {
 
 var removeEntuGroup = function removeEntuGroup(group_eid) {
     var entu_property = 'kohalolek-group.' + training_session.groups[group_eid]['pid']
+    removeEntuProperty(entu_property)
+}
+
+var removeEntuTrainee = function removeEntuTrainee(trainee_eid) {
+    var entu_property = 'kohalolek-student.' + training_session.trainees[trainee_eid]['pid']
     removeEntuProperty(entu_property)
 }
 
@@ -104,7 +124,7 @@ var addEntuStartTime = function addEntuStartTime(start_datetime) {
     })
 }
 
-var addEntuduration = function addEntuduration(duration_hours) {
+var addEntuDuration = function addEntuDuration(duration_hours) {
     if (training_session.duration_hours !== undefined) {
         var entu_property = 'kohalolek-tunde.' + training_session.duration_hours['pid']
         removeEntuProperty(entu_property)
@@ -146,11 +166,11 @@ var refreshEndDatetime = function refreshEndDatetime( gettime ) {
     if (training_session.eid === undefined) {
         addEntuKohalolek(function successCallback() {
             addEntuStartTime(start_d)
-            addEntuduration(duration_hours)
+            addEntuDuration(duration_hours)
         })
     } else {
         addEntuStartTime(start_d)
-            addEntuduration(duration_hours)
+            addEntuDuration(duration_hours)
     }
 
 }
@@ -190,6 +210,8 @@ $('[name="durationOptions"]').change(function() {
 $.get( configuration['ENTU_API_USER'] )
     .done(function fetchUserDone( data ) {
         $('#user_email').text(data.result.name)
+        $('#hours').show('slow')
+        $('#datetime').show('slow')
         // console.log(data.result.id)
         configuration['ENTU_USER_ID'] = data.result.id
         fetchGroups()
@@ -303,7 +325,14 @@ var fetchPersons = function fetchPersons() {
                         var person_name = entu_group_child.name
                         var checkbox_input = $('<input id="CB_' + person_eid + '" eid="' + person_eid + '" type="checkbox"/>')
                         checkbox_input.on('change', function() {
-                            refresh(group_eid, checkbox_input, group_size_span)
+
+                            var trainee_eid = checkbox_input.attr('eid')
+                            if (checkbox_input.is(':checked')) {
+                                addEntuTrainee(trainee_eid)
+                            } else {
+                                removeEntuTrainee(trainee_eid)
+                            }
+
                         })
                         var checkbox_label = $('<label for="CB_' + person_eid + '">' + person_name + '</label>')
                         group_persons_div.append($('<label for="CB_' + person_eid + '" class="person select_row col-xs-6 col-sm-4 col-md-3 col-lg-3"/>')
@@ -371,8 +400,6 @@ var fetchGroups = function fetchGroups() {
                         removeEntuGroup(group_eid)
                     }
 
-
-
                 })
                 $('#select_groups').append(checkbox_div)
             })
@@ -394,28 +421,35 @@ var checkAuth = function checkAuth(successCallback) {
     $.get( configuration.ENTU_API_USER )
         .done(function userOk( data ) {
             auth_in_progress = false
+            $('#hours').show('slow')
+            $('#datetime').show('slow')
             successCallback(data)
         })
         .fail(function userFail( data ) {
-            var load_nr = 0
-            if ($('#login_frame').length === 0) {
-                $('body').prepend(login_frame)
-                $('#login_frame').fadeIn(500)
-                $('#login_frame').load( function() {
-                    console.log(document.getElementById( 'login_frame' ).valueOf())
-                    var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
-                    try {
-                        var result = JSON.parse(doc_body)
-                        console.log(result)
-                        console.log('Auth page reloaded, user loaded.')
-                        auth_in_progress = false
-                        $('#login_frame').detach()
-                        checkAuth(successCallback)
-                        console.log('successCallback passed for new check.')
-                    } catch (ex) {
-                        console.log('Auth page reloaded, user still no avail')
-                    }
-                })
-            }
+            console.log(data)
+            // alert('redirecting')
+            window.location.assign('https://entu.entu.ee/auth?next=' + configuration.ENTU_URI + 'static/kohalolek/')
+            // var load_nr = 0
+            // if ($('#login_frame').length === 0) {
+            //     $('body').prepend(login_frame)
+            //     $('#login_frame').fadeIn(500)
+            //     $('#container').hide('fast')
+            //     $('#login_frame').load( function() {
+            //         console.log(document.getElementById( 'login_frame' ).valueOf())
+            //         var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
+            //         try {
+            //             var result = JSON.parse(doc_body)
+            //             console.log(result)
+            //             console.log('Auth page reloaded, user loaded.')
+            //             auth_in_progress = false
+            //             $('#login_frame').detach()
+            //             $('#container').show('fast')
+            //             checkAuth(successCallback)
+            //             console.log('successCallback passed for new check.')
+            //         } catch (ex) {
+            //             console.log('Auth page reloaded, user still no avail')
+            //         }
+            //     })
+            // }
         })
 }
