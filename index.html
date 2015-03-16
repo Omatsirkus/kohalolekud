@@ -1,64 +1,93 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
     <head>
-        <title>Omatsirkus - kohalolekud</title>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
-        <link href="style.css" rel="stylesheet" />
-        <script type="text/javascript" src="./node_modules/jquery/dist/jquery.js"></script>
-        <script type="text/javascript" src="./script.js" charset="utf-8"></script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="images/favicon.ico">
+
+        <title>Kohalolekud</title>
+        <!-- Bootstrap core CSS -->
+        <link href="lib/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="lib/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="stylesheets/template.css" rel="stylesheet">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
     </head>
 
-    <body>
-        <table id="card_labels">
-            <tr>
-                <td id="groups_card_label" class="card_label current">
-                    <span translate="groups_card"></span>
-                </td>
-                <td id="mark_card_label" translate="mark_card" class="card_label"></td>
-            </tr>
-            <tr id="ready_buttons">
-            </tr>
-        </table>
-        <div id="cards">
-            <card id="groups_card" class="card">
-                <p id="kohalolek_start_iso" class="right"></p>
-                <p id="kohalolek_end_iso" class="right"></p>
-                <div translate="groups_infotext" class="infotext"></div>
-                <div for="kohalolek_start_date" class="card_date">
-                    <span translate="start" class="card_date label"></span>
-                    <input type="date" id="kohalolek_start_date" class="card_date start date">
-                    <input type="number" id="kohalolek_start_hour" min="8" max="22" class="card_date start time hour">
-                    <input type="number" id="kohalolek_start_minute" min="0" max="55" step="5" class="card_date start time minute">
-                    <!-- <input type="number" id="kohalolek_start_year" min="2014" class="card_date year">
-                    <input type="number" id="kohalolek_start_month" min="1" max="12" class="card_date month">
-                    <input type="number" id="kohalolek_start_day" min="1" max="31" class="card_date day"> -->
-                </div>
-                <div for="kohalolek_end_date" class="card_date">
-                    <span translate="end" class="card_date label"></span>
-                    <input type="date" id="kohalolek_end_date" class="card_date end date">
-                    <input type="number" id="kohalolek_end_hour" min="8" max="22" class="card_date end time hour">
-                    <input type="number" id="kohalolek_end_minute" min="0" max="55" step="5" class="card_date end time minute">
-                    <!-- <input type="number" id="kohalolek_end_year" min="2014" class="card_date year">
-                    <input type="number" id="kohalolek_end_month" min="1" max="12" class="card_date month">
-                    <input type="number" id="kohalolek_end_day" min="1" max="31" class="card_date day"> -->
-                </div>
-                <div class="card_date interval">
-                    <span id="kohalolek_duration"></span>
+
+    <body class="modal-body">
+
+        <div id="container" class="container" class="col-md-4">
+
+            <div class="row">
+                <label for="entu_link" class="control-label col-md-2">ENTU</label>
+                <div id="entu_link" class="col-md-10"></div>
+            </div>
+
+            <div class="row">
+                <label for="user_email" class="control-label col-md-2">Kasutaja</label>
+                <div id="user_email" class="col-md-10">Ootan vastust <i class="fa fa-circle-o-notch fa-spin"></i></div>
+            </div>
+            <div id="datetime" class="row" style="display:none;">
+                <label for="start_datetime" class="control-label col-md-2">Kuupäev</label>
+
+                <div id="start_datetime" class="input-append date form_datetime col-md-10" data-date="">
+                    <input size="16" type="text" value="" readonly>
+                    <span class="add-on"><i class="icon-remove"></i></span>
+                    <span class="add-on"><i class="icon-th"></i></span>
                 </div>
 
+            </div>
+            <div id="hours" class="row" style="display:none;">
+                <label for="duration" class="control-label col-md-2">Kestus</label>
+                <!-- <input id="hours_num" type="number" value="1" min="1" class="col-md-2"> -->
+                <div id="duration" class=" col-md-10">
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio1" value="45"> 45m
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio1" value="60" checked> 1h
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio2" value="90"> 1h30
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="durationOptions" id="inlineRadio3" value="120"> 2h
+                    </label>
+                </div>
+            </div>
 
-                <div id="select_groups"></div>
-            </card>
+            <hr></hr>
 
-            <card id="mark_card" class="card">
-                <div translate="mark_infotext" class="infotext"></div>
+            <div id="select_groups" class="card show row">
+            </div>
+            <div id="select_participants" class="card hide">
+                <div id="select_couches">
+                </div>
+                <div id="select_trainees">
+                </div>
+            </div>
 
-                <div id="select_participation"></div>
-            </card>
+            <nav>
+              <ul class="pager">
+                <!-- <li id="back_to_groups_btn" class="hide"><a href="#">Tagasi</a></li> -->
+                <li id="groups_rdy_btn" class="hide"><a href="#">Edasi</a></li>
+              </ul>
+            </nav>
+        </div><!-- /.container -->
 
-        </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="lib/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+        <script src="lib/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="javascripts/main.js"></script>
     </body>
-
 </html>
