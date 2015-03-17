@@ -154,12 +154,6 @@ var refreshEndDatetime = function refreshEndDatetime( gettime ) {
     var minutes = Number($('[name="durationOptions"]:checked').val())
     var duration_ms = minutes * 60 * 1000 + gettime
     var duration_hours = minutes / 60
-    var end_d = new Date()
-    end_d.setTime(duration_ms)
-
-    $('#end_datetime').attr('gettime', duration_ms)
-    $('#end_datetime').attr('data-date', end_d.toJSON())
-    $('#end_datetime')[0].value = end_d.toJSON().replace('T',' ').slice(0,16)
 
     $('.group.time').each(function () {$(this).text(start_d.toJSON().replace('T',' ').slice(0,16))})
 
