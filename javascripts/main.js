@@ -424,8 +424,10 @@ var checkAuth = function checkAuth(successCallback) {
         .fail(function userFail( data ) {
             console.log(data)
 
+            alert("Hash: " + window.location.hash)
+            if (window.location.hash === 'authenticated')
             var minu_random_string = 'abababababababababababababababababababababababababababababab'
-            $.post( configuration.ENTU_API_AUTH, {'state': minu_random_string, 'redirect_url': window.location.href} )
+            $.post( configuration.ENTU_API_AUTH, {'state': minu_random_string, 'redirect_url': window.location.href + "#authenticated"} )
                 .fail(function authFail( data ) {
                     console.log(data)
                 })
