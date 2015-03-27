@@ -43,6 +43,7 @@ var addEntuGroup = function addEntuGroup(group_eid) {
         'headers': {
             'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -61,6 +62,7 @@ var addEntuTrainee = function addEntuTrainee(trainee_eid) {
         'headers': {
             'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -82,6 +84,7 @@ var removeEntuProperty = function removeEntuProperty(entu_property) {
         'headers': {
             'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -118,6 +121,7 @@ var addEntuKohalolek = function addEntuKohalolek(successCallback) {
         'headers': {
             'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
     })
     // $.post((configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid), post_data, function(returned_data) {
     //     training_session.eid = returned_data.result.id
@@ -145,6 +149,7 @@ var addEntuStartTime = function addEntuStartTime(start_datetime) {
         'headers': {
             'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -167,6 +172,7 @@ var addEntuDuration = function addEntuDuration(duration_hours) {
         'headers': {
             'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
