@@ -450,7 +450,7 @@ var checkAuth = function checkAuth(successCallback) {
                         window.location.assign(data.auth_url)
                     })
             } else { // window.location.hash === 'authenticated'
-                $.post( window.location.getItem('auth_url'), {'state': window.sessionStorage.getItem('my_random_string')} )
+                $.post( window.sessionStorage.getItem('auth_url'), {'state': window.sessionStorage.getItem('my_random_string')} )
                     .fail(function authFail( data ) {
                         console.log(data)
                     })
