@@ -449,6 +449,7 @@ var checkAuth = function checkAuth(successCallback) {
                     })
                     .done(function authDone( data ) {
                         console.log(data)
+                    })
             }
 
 
