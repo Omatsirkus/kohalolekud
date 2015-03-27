@@ -425,22 +425,32 @@ var checkAuth = function checkAuth(successCallback) {
             console.log(data)
 
             alert("Hash: " + window.location.hash)
-            if (window.location.hash === 'authenticated')
-            var minu_random_string = 'abababababababababababababababababababababababababababababab'
-            $.post( configuration.ENTU_API_AUTH, {'state': minu_random_string, 'redirect_url': window.location.href + "#authenticated"} )
-                .fail(function authFail( data ) {
-                    console.log(data)
-                })
-                .done(function authDone( data ) {
-                    if (minu_random_string !== data.state) {
-                        alert('Security breach!')
-                        return
-                    }
-                    console.log(data)
-                    window.location.assign(data.auth_url)
+            if (window.location.hash !== 'authenticated') {
+                var my_random_string = 'abababababababababababababababababababababababababababababab'
+                window.sessionStorage.setItem('my_random_string', my_random_string)
 
+                $.post( configuration.ENTU_API_AUTH, {'state': window.sessionStorage.getItem('my_random_string'), 'redirect_url': window.location.href + "#authenticated"} )
+                    .fail(function authFail( data ) {
+                        console.log(data)
+                    })
+                    .done(function authDone( data ) {
+                        if (window.sessionStorage.getItem('my_random_string') !== data.state) {
+                            alert('Security breach!')
+                            return
+                        }
+                        console.log(data)
+                        window.sessionStorage.setItem('auth_url', data.auth_url)
+                        window.location.assign(data.auth_url)
+                    })
+            } else { // window.location.hash === 'authenticated'
+                $.post( window.location.getItem('auth_url'), {'state': window.sessionStorage.getItem('my_random_string')} )
+                    .fail(function authFail( data ) {
+                        console.log(data)
+                    })
+                    .done(function authDone( data ) {
+                        console.log(data)
+            }
 
-                })
 
 
 
