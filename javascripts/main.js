@@ -412,21 +412,23 @@ var checkAuth = function checkAuth(successCallback) {
         return
     auth_in_progress = true
 
-    alert("Page host is " + window.location.href)
     $.get( configuration.ENTU_API_USER )
         .done(function userOk( data ) {
             auth_in_progress = false
             $('#hours').show('slow')
             $('#datetime').show('slow')
             console.log(data)
+            alert('user OK')
             successCallback(data)
         })
         .fail(function userFail( data ) {
+            alert('user FAIL')
             console.log(data)
 
             alert("Hash: " + window.location.hash)
             if (window.location.hash !== '#authenticated') {
-                var my_random_string = 'abababababababababababababababababababababababababababababab'
+                var my_random_string = Math.random().toString(35).slice(2,39)
+
                 window.sessionStorage.setItem('my_random_string', my_random_string)
 
                 var redirect_url = window.location.protocol + '//'
