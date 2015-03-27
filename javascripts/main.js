@@ -21,7 +21,7 @@ var addEntuCoach = function addEntuCoach(coach_eid) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
         type: 'PUT',
-        data: { 'kohalolek-coach'       : coach_eid },
+        data: { 'kohalolek-coach': coach_eid },
         'headers': {
             'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
@@ -114,7 +114,7 @@ var addEntuKohalolek = function addEntuKohalolek(successCallback) {
             training_session.eid = returned_data.result.id
             console.log(returned_data.result.id)
             console.log(training_session.eid)
-            addEntuCoach(configuration.ENTU_USER_ID)
+            addEntuCoach(window.sessionStorage.getItem('ENTU_USER_ID'))
             successCallback()
             $('#entu_link').append('<a href="' + configuration.ENTU_URI + 'entity/kohalolek/' + returned_data.result.id + '" target="entu_link">Link Entusse</a>')
         },
