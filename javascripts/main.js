@@ -432,6 +432,7 @@ var checkAuth = function checkAuth(successCallback) {
                 var redirect_url = window.location.protocol + '//'
                                     + window.location.hostname
                                     + window.location.pathname
+                                    + "#authenticated"
 
                 $.post( configuration.ENTU_API_AUTH, {'state': window.sessionStorage.getItem('my_random_string'), 'redirect_url': redirect_url} )
                     .fail(function authFail( data ) {
