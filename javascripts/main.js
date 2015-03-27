@@ -154,12 +154,6 @@ var refreshEndDatetime = function refreshEndDatetime( gettime ) {
     var minutes = Number($('[name="durationOptions"]:checked').val())
     var duration_ms = minutes * 60 * 1000 + gettime
     var duration_hours = minutes / 60
-    var end_d = new Date()
-    end_d.setTime(duration_ms)
-
-    $('#end_datetime').attr('gettime', duration_ms)
-    $('#end_datetime').attr('data-date', end_d.toJSON())
-    $('#end_datetime')[0].value = end_d.toJSON().replace('T',' ').slice(0,16)
 
     $('.group.time').each(function () {$(this).text(start_d.toJSON().replace('T',' ').slice(0,16))})
 
@@ -216,8 +210,8 @@ $.get( configuration['ENTU_API_USER'] )
         configuration['ENTU_USER_ID'] = data.result.id
         fetchGroups()
     })
-    .fail(function fail( jqXHR, textStatus, error ) {
-        console.log( jqXHR.responseJSON, textStatus, error )
+    .fail(function fail( jqXHR, textStatus ) {
+        console.log( jqXHR.responseJSON, textStatus )
         checkAuth(function fetchUserDone( data ) {
             $('#user_email').text(data.result.name)
             fetchGroups()
@@ -418,6 +412,7 @@ var checkAuth = function checkAuth(successCallback) {
         return
     auth_in_progress = true
 
+    alert("Page host is " + window.location.href)
     $.get( configuration.ENTU_API_USER )
         .done(function userOk( data ) {
             auth_in_progress = false
@@ -427,8 +422,37 @@ var checkAuth = function checkAuth(successCallback) {
         })
         .fail(function userFail( data ) {
             console.log(data)
+
+            var minu_random_string = 'abababababababababababababababababababababababababababababab'
+            $.post( configuration.ENTU_API_AUTH, {'state': minu_random_string, 'redirect_url': window.location.href + '#foo&foo=baz'} )
+                .fail(function authFail( data ) {
+                    console.log(data)
+                })
+                .done(function authDone( data ) {
+                    if (minu_random_string !== data.state) {
+                        alert('Security breach!')
+                        return
+                    }
+                    console.log(data)
+                    window.location.assign(data.auth_url)
+
+
+                })
+
+
+
+
+
+
+
+
+
+
+
+
+
             // alert('redirecting')
-            window.location.assign('https://entu.entu.ee/auth?next=' + configuration.ENTU_URI + 'static/kohalolek/')
+            // window.location.assign('https://entu.entu.ee/auth?next=' + configuration.ENTU_URI + 'static/kohalolek/')
             // var load_nr = 0
             // if ($('#login_frame').length === 0) {
             //     $('body').prepend(login_frame)
