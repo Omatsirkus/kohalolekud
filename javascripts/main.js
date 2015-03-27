@@ -21,7 +21,11 @@ var addEntuCoach = function addEntuCoach(coach_eid) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
         type: 'PUT',
-        data: { 'kohalolek-coach'       : coach_eid }
+        data: { 'kohalolek-coach'       : coach_eid },
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -35,7 +39,10 @@ var addEntuGroup = function addEntuGroup(group_eid) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
         type: 'PUT',
-        data: { 'kohalolek-group'       : group_eid }
+        data: { 'kohalolek-group'       : group_eid },
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -50,7 +57,10 @@ var addEntuTrainee = function addEntuTrainee(trainee_eid) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
         type: 'PUT',
-        data: { 'kohalolek-student'       : trainee_eid }
+        data: { 'kohalolek-student'       : trainee_eid },
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -68,7 +78,10 @@ var removeEntuProperty = function removeEntuProperty(entu_property) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
         type: 'PUT',
-        data: data
+        data: data,
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -89,16 +102,31 @@ var removeEntuTrainee = function removeEntuTrainee(trainee_eid) {
 }
 
 var addEntuKohalolek = function addEntuKohalolek(successCallback) {
-    var post_data = {'definition': 'kohalolek'}
     console.log(configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid)
-    $.post((configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid), post_data, function(returned_data) {
-        training_session.eid = returned_data.result.id
-        console.log(returned_data.result.id)
-        console.log(training_session.eid)
-        addEntuCoach(configuration.ENTU_USER_ID)
-        successCallback()
-        $('#entu_link').append('<a href="' + configuration.ENTU_URI + 'entity/kohalolek/' + returned_data.result.id + '" target="entu_link">Link Entusse</a>')
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid,
+        type: 'POST',
+        data: { 'definition': 'kohalolek' },
+        success: function(returned_data) {
+            training_session.eid = returned_data.result.id
+            console.log(returned_data.result.id)
+            console.log(training_session.eid)
+            addEntuCoach(configuration.ENTU_USER_ID)
+            successCallback()
+            $('#entu_link').append('<a href="' + configuration.ENTU_URI + 'entity/kohalolek/' + returned_data.result.id + '" target="entu_link">Link Entusse</a>')
+        },
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
     })
+    // $.post((configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid), post_data, function(returned_data) {
+    //     training_session.eid = returned_data.result.id
+    //     console.log(returned_data.result.id)
+    //     console.log(training_session.eid)
+    //     addEntuCoach(configuration.ENTU_USER_ID)
+    //     successCallback()
+    //     $('#entu_link').append('<a href="' + configuration.ENTU_URI + 'entity/kohalolek/' + returned_data.result.id + '" target="entu_link">Link Entusse</a>')
+    // })
     .fail(function fail( jqXHR, textStatus, error ) {
         console.log( jqXHR, textStatus, error )
     })
@@ -113,7 +141,10 @@ var addEntuStartTime = function addEntuStartTime(start_datetime) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
         type: 'PUT',
-        data: { 'kohalolek-algus'       : start_datetime }
+        data: { 'kohalolek-algus'       : start_datetime },
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -132,7 +163,10 @@ var addEntuDuration = function addEntuDuration(duration_hours) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
         type: 'PUT',
-        data: { 'kohalolek-tunde'       : duration_hours }
+        data: { 'kohalolek-tunde'       : duration_hours },
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
     })
     .done(function done( data ) {
         console.log( 'Success:', data )
@@ -201,24 +235,6 @@ $('[name="durationOptions"]').change(function() {
         refreshEndDatetime(Number($('#start_datetime').attr('gettime')))
 })
 
-$.get( configuration['ENTU_API_USER'] )
-    .done(function fetchUserDone( data ) {
-        $('#user_email').text(data.result.name)
-        $('#hours').show('slow')
-        $('#datetime').show('slow')
-        // console.log(data.result.id)
-        configuration['ENTU_USER_ID'] = data.result.id
-        fetchGroups()
-    })
-    .fail(function fail( jqXHR, textStatus ) {
-        console.log( jqXHR.responseJSON, textStatus )
-        checkAuth(function fetchUserDone( data ) {
-            $('#user_email').text(data.result.name)
-            fetchGroups()
-        })
-        // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
-
-    })
 
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
@@ -234,7 +250,14 @@ var fetchPersons = function fetchPersons() {
             var group_eid = $(this).attr('eid')
             var group_name = $(this).attr('name')
             // Fetch group data
-            $.get( configuration['ENTU_API_ENTITY'] + '-' + group_eid )
+            $.ajax({
+                'url': configuration['ENTU_API_ENTITY'] + '-' + group_eid,
+                'headers': {
+                    'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+                    'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+                }
+            })
+            // $.get( configuration['ENTU_API_ENTITY'] + '-' + group_eid )
                 .fail(function getGroupDataFailed( data ) {
                     // console.log( data )
                     throw 'Can\'t fetch Group ' + group_eid
@@ -273,7 +296,14 @@ var fetchPersons = function fetchPersons() {
             var group_eid = $(this).attr('eid')
             var group_name = $(this).attr('name')
 
-            $.get( configuration['ENTU_API_ENTITY'] + '-' + group_eid + '/childs'  )
+            $.ajax({
+                'url': configuration['ENTU_API_ENTITY'] + '-' + group_eid + '/childs',
+                'headers': {
+                    'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+                    'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+                }
+            })
+            // $.get( configuration['ENTU_API_ENTITY'] + '-' + group_eid + '/childs'  )
                 .fail(function fetchTraineesFail( data ) {
                     console.log(data)
                     throw ('Failed fetching trainees for group ' + group_eid)
@@ -350,7 +380,14 @@ var fetchGroups = function fetchGroups() {
         return
     }
 
-    $.get( configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid )
+    $.ajax({
+        'url': configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid,
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
+    })
+    // $.get( configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid )
         .done(function fetchFolder( data ) {
             // Check privileges on "kohalolekud" folder
             if (['owner','editor','expander'].indexOf(data.result.right) === -1) {
@@ -366,7 +403,13 @@ var fetchGroups = function fetchGroups() {
 
 
     console.log('Accessing ' + configuration['ENTU_API_ENTITY'] + '?definition=group')
-    $.get( configuration['ENTU_API_ENTITY'] + '?definition=group' )
+    $.ajax({
+        'url': configuration['ENTU_API_ENTITY'] + '?definition=group',
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
+    })
         .done(function fetchGroupsOk( data ) {
             // console.log(data)
             data.result.forEach(function iterateGroups(entu_group) {
@@ -460,3 +503,8 @@ var checkAuth = function checkAuth(successCallback) {
             }
         })
 }
+
+checkAuth(function fetchUserDone( data ) {
+    $('#user_email').text(data.result.name)
+    fetchGroups()
+})
