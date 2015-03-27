@@ -401,16 +401,7 @@ var fetchGroups = function fetchGroups() {
 }
 
 
-var login_frame = $('<IFRAME/>')
-    .attr('id', 'login_frame')
-    .attr('name', 'login_frame')
-    .attr('src', configuration.ENTU_API_AUTH)
-
-var auth_in_progress = false
 var checkAuth = function checkAuth(successCallback) {
-    if (auth_in_progress)
-        return
-    auth_in_progress = true
 
     $.ajax({
         'url': configuration.ENTU_API_USER,
@@ -420,18 +411,14 @@ var checkAuth = function checkAuth(successCallback) {
         }
     })
         .done(function userOk( data ) {
-            auth_in_progress = false
             $('#hours').show('slow')
             $('#datetime').show('slow')
             console.log(data)
-            alert('user OK')
             successCallback(data)
         })
         .fail(function userFail( data ) {
-            alert('user FAIL')
             console.log(data)
 
-            alert("Hash: " + window.location.hash)
             if (window.location.hash !== '#authenticated') {
                 var my_random_string = Math.random().toString(35).slice(2,39)
 
@@ -471,43 +458,5 @@ var checkAuth = function checkAuth(successCallback) {
                         window.location.assign(redirect_url)
                     })
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // alert('redirecting')
-            // window.location.assign('https://entu.entu.ee/auth?next=' + configuration.ENTU_URI + 'static/kohalolek/')
-            // var load_nr = 0
-            // if ($('#login_frame').length === 0) {
-            //     $('body').prepend(login_frame)
-            //     $('#login_frame').fadeIn(500)
-            //     $('#container').hide('fast')
-            //     $('#login_frame').load( function() {
-            //         console.log(document.getElementById( 'login_frame' ).valueOf())
-            //         var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
-            //         try {
-            //             var result = JSON.parse(doc_body)
-            //             console.log(result)
-            //             console.log('Auth page reloaded, user loaded.')
-            //             auth_in_progress = false
-            //             $('#login_frame').detach()
-            //             $('#container').show('fast')
-            //             checkAuth(successCallback)
-            //             console.log('successCallback passed for new check.')
-            //         } catch (ex) {
-            //             console.log('Auth page reloaded, user still no avail')
-            //         }
-            //     })
-            // }
         })
 }
