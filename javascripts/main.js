@@ -210,7 +210,7 @@ var refreshEndDatetime = function refreshEndDatetime( gettime ) {
 }
 
 
-console.log('build.9')
+console.log('build.10')
 
 $('#groups_rdy_btn').click(function(event) {
     $('#select_participants').removeClass('hide').addClass('show')
