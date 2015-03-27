@@ -464,6 +464,11 @@ var checkAuth = function checkAuth(successCallback) {
                         console.log(data)
                         window.sessionStorage.setItem('ENTU_USER_ID', data.result.user.id)
                         window.sessionStorage.setItem('ENTU_SESSION_KEY', data.result.user.session_key)
+
+                        var redirect_url = window.location.protocol + '//'
+                                    + window.location.hostname
+                                    + window.location.pathname
+                        window.location.assign(redirect_url)
                     })
             }
 
