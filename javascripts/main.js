@@ -412,7 +412,13 @@ var checkAuth = function checkAuth(successCallback) {
         return
     auth_in_progress = true
 
-    $.get( configuration.ENTU_API_USER )
+    $.ajax({
+        'url': configuration.ENTU_API_USER,
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
+    })
         .done(function userOk( data ) {
             auth_in_progress = false
             $('#hours').show('slow')
@@ -456,6 +462,8 @@ var checkAuth = function checkAuth(successCallback) {
                     })
                     .done(function authDone( data ) {
                         console.log(data)
+                        window.sessionStorage.setItem('ENTU_USER_ID', data.result.user.id)
+                        window.sessionStorage.setItem('ENTU_SESSION_KEY', data.result.user.session_key)
                     })
             }
 
