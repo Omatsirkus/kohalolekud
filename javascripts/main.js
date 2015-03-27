@@ -418,13 +418,14 @@ var checkAuth = function checkAuth(successCallback) {
             auth_in_progress = false
             $('#hours').show('slow')
             $('#datetime').show('slow')
+            console.log(data)
             successCallback(data)
         })
         .fail(function userFail( data ) {
             console.log(data)
 
             var minu_random_string = 'abababababababababababababababababababababababababababababab'
-            $.post( configuration.ENTU_API_AUTH, {'state': minu_random_string, 'redirect_url': window.location.href + '#foo&foo=baz'} )
+            $.post( configuration.ENTU_API_AUTH, {'state': minu_random_string, 'redirect_url': window.location.href} )
                 .fail(function authFail( data ) {
                     console.log(data)
                 })
