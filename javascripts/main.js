@@ -1,7 +1,9 @@
+var params = request('./params.json')
+
+console.log(params)
+
+
 var configuration = {
-  "hour_minutes": 45,
-  "language": "estonian",
-  "cards": ["groups", "mark"],
   "ENTU_URI": 'https://devm.entu.ee/',
   "kohalolekud_eid": 652
 }
@@ -210,7 +212,6 @@ var refreshEndDatetime = function refreshEndDatetime( gettime ) {
 }
 
 
-console.log('build.10')
 
 $('#groups_rdy_btn').click(function(event) {
     $('#select_participants').removeClass('hide').addClass('show')
