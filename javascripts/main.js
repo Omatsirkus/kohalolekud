@@ -5,12 +5,12 @@ var params
 xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         params = JSON.parse(xmlhttp.responseText)
+        console.log(params)
     }
 }
 xmlhttp.open("GET", url, true)
 xmlhttp.send()
 
-console.log(params)
 
 
 var configuration = {
