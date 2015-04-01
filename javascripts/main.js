@@ -14,7 +14,7 @@ xmlhttp.send()
 
 
 var configuration = {
-  "ENTU_URI": 'https://devm.entu.ee/',
+  "ENTU_URI": 'https://omatsirkus.entu.ee/',
   "kohalolekud_eid": 652
 }
 
