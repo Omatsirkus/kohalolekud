@@ -419,7 +419,7 @@ var fetchGroups = function fetchGroups() {
         })
 
 
-    console.log('Accessing ' + configuration['ENTU_API_ENTITY'] + '?definition=group')
+    // console.log('Accessing ' + configuration['ENTU_API_ENTITY'] + '?definition=group')
     $.ajax({
         'url': configuration['ENTU_API_ENTITY'] + '?definition=group',
         'headers': {
@@ -473,7 +473,6 @@ var checkAuth = function checkAuth(successCallback) {
         .done(function userOk( data ) {
             $('#hours').show('slow')
             $('#datetime').show('slow')
-            console.log(data)
             successCallback(data)
         })
         .fail(function userFail( data ) {
