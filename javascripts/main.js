@@ -1,4 +1,14 @@
-var params = request('./params.json')
+var xmlhttp = new XMLHttpRequest()
+var url = "params.json"
+
+var params
+xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        params = JSON.parse(xmlhttp.responseText)
+    }
+}
+xmlhttp.open("GET", url, true)
+xmlhttp.send()
 
 console.log(params)
 
@@ -431,7 +441,7 @@ var fetchGroups = function fetchGroups() {
                         $('#groups_rdy_btn').removeClass('hide').addClass('show')
                     } else {
                         alert('Ei saa viimast rühma maha võtta!')
-                        checkbox_input.prop('checked', true);
+                        checkbox_input.prop('checked', true)
                     }
                     var group_eid = checkbox_input.attr('eid')
                     if (training_session.eid === undefined) {
