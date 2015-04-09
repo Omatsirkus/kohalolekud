@@ -497,15 +497,19 @@ var checkAuth = function checkAuth(successCallback) {
         .fail(function userFail( data ) {
             console.log(data)
 
-            if (window.location.hash !== '#authenticated') {
+            var my_auth_string = window.sessionStorage.getItem('my_auth_string')
+
+            if (window.location.hash !== '#' + my_auth_string) {
                 var my_random_string = Math.random().toString(35).slice(2,39)
+                my_auth_string = Math.random().toString(35).slice(2,39)
 
                 window.sessionStorage.setItem('my_random_string', my_random_string)
+                window.sessionStorage.setItem('my_auth_string', my_auth_string)
 
                 var redirect_url = window.location.protocol + '//'
                                     + window.location.hostname
                                     + window.location.pathname
-                                    + "#authenticated"
+                                    + "#" + my_auth_string
 
                 $.post( configuration.ENTU_API_AUTH, {'state': window.sessionStorage.getItem('my_random_string'), 'redirect_url': redirect_url} )
                     .fail(function authFail( data ) {
