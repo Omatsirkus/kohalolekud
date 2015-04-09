@@ -29,6 +29,24 @@ configuration['ENTU_API_POST_FILE'] = configuration.ENTU_API + 'file'
 
 var training_session = {eid:undefined, start:undefined, duration_hours:undefined, groups:{}, coaches:{}, trainees:{}}
 
+var addEntuVersion = function addEntuVersion() {
+    $.ajax({
+        url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
+        type: 'PUT',
+        data: { 'kohalolek-tool-version': params.version },
+        'headers': {
+            'X-Auth-UserId': window.sessionStorage.getItem('ENTU_USER_ID'),
+            'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
+        }
+    })
+    .done(function done( data ) {
+        console.log( 'Success:', data )
+    })
+    .fail(function fail( jqXHR, textStatus, error ) {
+        console.log( jqXHR, textStatus, error )
+    })
+}
+
 var addEntuCoach = function addEntuCoach(coach_eid) {
     $.ajax({
         url: configuration['ENTU_API_ENTITY'] + '-' + training_session.eid,
@@ -126,6 +144,7 @@ var addEntuKohalolek = function addEntuKohalolek(successCallback) {
             training_session.eid = returned_data.result.id
             console.log(returned_data.result.id)
             console.log(training_session.eid)
+            addEntuVersion()
             addEntuCoach(window.sessionStorage.getItem('ENTU_USER_ID'))
             successCallback()
             $('#entu_link').append('<a href="' + configuration.ENTU_URI + 'entity/kohalolek/' + returned_data.result.id + '" target="entu_link">Link Entusse</a>')
