@@ -423,7 +423,6 @@ var fetchGroups = function fetchGroups() {
             'X-Auth-Token': window.sessionStorage.getItem('ENTU_SESSION_KEY')
         }
     })
-    // $.get( configuration['ENTU_API_ENTITY'] + '-' + configuration.kohalolekud_eid )
         .done(function fetchFolder( data ) {
             // Check privileges on "kohalolekud" folder
             if (['owner','editor','expander'].indexOf(data.result.right) === -1) {
@@ -432,11 +431,14 @@ var fetchGroups = function fetchGroups() {
                 window.location.assign(configuration.ENTU_URI + 'entity/folder/' + configuration.kohalolekud_eid)
                 // throw ('Not enough privileges on entity ' + configuration.kohalolekud_eid)
             }
+            $('#hours').show('slow')
+            $('#datetime').show('slow')
 
         })
         .fail(function fetchFolder( data ) {
             throw 'Cant fetch root folder.'
         })
+
 
 
     // console.log('Accessing ' + configuration['ENTU_API_ENTITY'] + '?definition=group')
@@ -491,8 +493,6 @@ var checkAuth = function checkAuth(successCallback) {
         }
     })
         .done(function userOk( data ) {
-            $('#hours').show('slow')
-            $('#datetime').show('slow')
             successCallback(data)
         })
         .fail(function userFail( data ) {
