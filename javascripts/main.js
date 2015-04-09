@@ -429,7 +429,8 @@ var fetchGroups = function fetchGroups() {
             if (['owner','editor','expander'].indexOf(data.result.right) === -1) {
                 console.log(data.result.right + ' is not privileged enough on entity ' + configuration.kohalolekud_eid)
                 alert ('Sa ei saa praegu kohalolekuid märkida. Küsi endale õiguseid.')
-                throw ('Not enough privileges on entity ' + configuration.kohalolekud_eid)
+                window.location.assign(configuration.ENTU_URI + 'entity/folder/' + configuration.kohalolekud_eid)
+                // throw ('Not enough privileges on entity ' + configuration.kohalolekud_eid)
             }
 
         })
