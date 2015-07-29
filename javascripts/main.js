@@ -237,7 +237,6 @@ var refreshEndDatetime = function refreshEndDatetime( gettime ) {
         addEntuStartTime(start_d)
             addEntuDuration(duration_hours)
     }
-
 }
 
 
@@ -517,13 +516,13 @@ var checkAuth = function checkAuth(successCallback) {
                         console.log(data)
                     })
                     .done(function authDone( data ) {
-                        if (window.sessionStorage.getItem('my_random_string') !== data.state) {
+                        if (window.sessionStorage.getItem('my_random_string') !== data.result.state) {
                             alert('Security breach!')
                             return
                         }
                         console.log(data)
-                        window.sessionStorage.setItem('auth_url', data.auth_url)
-                        window.location.assign(data.auth_url)
+                        window.sessionStorage.setItem('auth_url', data.result.auth_url)
+                        window.location.assign(data.result.auth_url)
                     })
             } else { // window.location.hash === 'authenticated'
                 $.post( window.sessionStorage.getItem('auth_url'), {'state': window.sessionStorage.getItem('my_random_string')} )
