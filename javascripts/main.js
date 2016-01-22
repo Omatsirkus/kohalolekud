@@ -14,8 +14,13 @@ xmlhttp.send()
 
 
 var configuration = {
+<<<<<<< HEAD
   "ENTU_URI": 'https://omatsirkus.entu.ee/',
   "kohalolekud_eid": 652
+=======
+    "ENTU_URI": 'https://omatsirkus.entu.ee/',
+    "kohalolekud_eid": 652
+>>>>>>> master
 }
 
 configuration['ENTU_API'] = configuration.ENTU_URI + 'api2/'
@@ -270,6 +275,41 @@ $('[name="durationOptions"]').change(function() {
         refreshEndDatetime(Number($('#start_datetime').attr('gettime')))
 })
 
+<<<<<<< HEAD
+=======
+$.get( configuration['ENTU_API_USER'] )
+    .done(function fetchUserDone( data ) {
+        $('#user_email').text(data.result.name)
+        $('#hours').show('slow')
+        $('#datetime').show('slow')
+        // console.log(data.result.id)
+        configuration['ENTU_USER_ID'] = data.result.id
+        window.Intercom('boot', {
+            app_id: "a8si2rq4",
+            name: data.result.name,
+            email: data.result.email,
+            created_at: new Date().getTime()
+        })
+        window.Intercom('update')
+        fetchGroups()
+    })
+    .fail(function fail( jqXHR, textStatus ) {
+        console.log( jqXHR.responseJSON, textStatus )
+        checkAuth(function fetchUserDone( data ) {
+            $('#user_email').text(data.result.name)
+            window.Intercom('boot', {
+                app_id: "a8si2rq4",
+                name: data.result.name,
+                email: data.result.email,
+                created_at: new Date().getTime()
+            })
+            window.Intercom('update')
+            fetchGroups()
+        })
+        // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
+
+    })
+>>>>>>> master
 
 
 // $.get( configuration['ENTU_API_ENTITY'] + '?definition=person' )
@@ -497,6 +537,7 @@ var checkAuth = function checkAuth(successCallback) {
         .fail(function userFail( data ) {
             console.log(data)
 
+<<<<<<< HEAD
             var my_auth_string = window.sessionStorage.getItem('my_auth_string')
 
             if (window.location.hash !== '#' + my_auth_string) {
@@ -540,6 +581,21 @@ var checkAuth = function checkAuth(successCallback) {
                         window.location.assign(redirect_url)
                     })
             }
+=======
+            var minu_random_string = 'abababababababababababababababababababababababababababababab'
+            $.post( configuration.ENTU_API_AUTH, {'state': minu_random_string, 'redirect_url': window.location.href + '#foo&foo=baz'} )
+                .fail(function authFail( data ) {
+                    console.log(data)
+                })
+                .done(function authDone( data ) {
+                    if (minu_random_string !== data.state) {
+                        alert('Security breach!')
+                        return
+                    }
+                    console.log(data)
+                    window.location.assign(data.auth_url)
+                })
+>>>>>>> master
         })
 }
 
