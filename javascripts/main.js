@@ -14,13 +14,8 @@ xmlhttp.send()
 
 
 var configuration = {
-<<<<<<< HEAD
-  "ENTU_URI": 'https://omatsirkus.entu.ee/',
-  "kohalolekud_eid": 652
-=======
     "ENTU_URI": 'https://omatsirkus.entu.ee/',
     "kohalolekud_eid": 652
->>>>>>> master
 }
 
 configuration['ENTU_API'] = configuration.ENTU_URI + 'api2/'
