@@ -1,9 +1,6 @@
 var configuration = {
-  "hour_minutes": 45,
-  "language": "estonian",
-  "cards": ["groups", "mark"],
-  "ENTU_URI": 'https://devm.entu.ee/',
-  "kohalolekud_eid": 652
+    "ENTU_URI": 'https://omatsirkus.entu.ee/',
+    "kohalolekud_eid": 652
 }
 
 configuration['ENTU_API'] = configuration.ENTU_URI + 'api2/'
@@ -208,12 +205,26 @@ $.get( configuration['ENTU_API_USER'] )
         $('#datetime').show('slow')
         // console.log(data.result.id)
         configuration['ENTU_USER_ID'] = data.result.id
+        window.Intercom('boot', {
+            app_id: "a8si2rq4",
+            name: data.result.name,
+            email: data.result.email,
+            created_at: new Date().getTime()
+        })
+        window.Intercom('update')
         fetchGroups()
     })
     .fail(function fail( jqXHR, textStatus ) {
         console.log( jqXHR.responseJSON, textStatus )
         checkAuth(function fetchUserDone( data ) {
             $('#user_email').text(data.result.name)
+            window.Intercom('boot', {
+                app_id: "a8si2rq4",
+                name: data.result.name,
+                email: data.result.email,
+                created_at: new Date().getTime()
+            })
+            window.Intercom('update')
             fetchGroups()
         })
         // window.location.assign('https://entu.entu.ee/auth?next=https://omatsirkus.github.io/kohalolekud/')
@@ -435,45 +446,6 @@ var checkAuth = function checkAuth(successCallback) {
                     }
                     console.log(data)
                     window.location.assign(data.auth_url)
-
-
                 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // alert('redirecting')
-            // window.location.assign('https://entu.entu.ee/auth?next=' + configuration.ENTU_URI + 'static/kohalolek/')
-            // var load_nr = 0
-            // if ($('#login_frame').length === 0) {
-            //     $('body').prepend(login_frame)
-            //     $('#login_frame').fadeIn(500)
-            //     $('#container').hide('fast')
-            //     $('#login_frame').load( function() {
-            //         console.log(document.getElementById( 'login_frame' ).valueOf())
-            //         var doc_body = document.getElementById( 'login_frame' ).contentWindow.document.body.innerText
-            //         try {
-            //             var result = JSON.parse(doc_body)
-            //             console.log(result)
-            //             console.log('Auth page reloaded, user loaded.')
-            //             auth_in_progress = false
-            //             $('#login_frame').detach()
-            //             $('#container').show('fast')
-            //             checkAuth(successCallback)
-            //             console.log('successCallback passed for new check.')
-            //         } catch (ex) {
-            //             console.log('Auth page reloaded, user still no avail')
-            //         }
-            //     })
-            // }
         })
 }
